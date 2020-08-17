@@ -44,18 +44,26 @@
 
     </style>
 
+    <style name="TopDialog.Animation" parent="Animation.AppCompat.Dialog">
+
+        <item name="android:windowEnterAnimation">@anim/translate_dialog_in_top</item>
+
+        <item name="android:windowExitAnimation">@anim/translate_dialog_out_top</item>
+
+    </style>
+
     <declare-styleable name="roundedimageview">
         <attr name="border_thickness" format="dimension" />
         <attr name="border_inside_color" format="color" />
         <attr name="border_outside_color" format="color"></attr>
     </declare-styleable>
     <declare-styleable name="SplashTimer">
-        <attr name="timer_duration" format="integer"/>
-        <attr name="android:text"/>
-        <attr name="android:textColor"/>
-        <attr name="android:textSize"/>
-        <attr name="timer_padding" format="dimension"/>
-        <attr name="timer_arcColor" format="color"/>
-        <attr name="timer_arcStrokeWidth" format="dimension"/>
+        <attr name="timer_duration" format="integer" />
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="timer_padding" format="dimension" />
+        <attr name="timer_arcColor" format="color" />
+        <attr name="timer_arcStrokeWidth" format="dimension" />
     </declare-styleable>
 </resources>

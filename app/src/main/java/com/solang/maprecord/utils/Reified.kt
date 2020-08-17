@@ -3,6 +3,7 @@ package com.solang.maprecord.utils
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.solang.maprecord.beans.MapBean
 
 /**
  * Created with Android Studio.
@@ -27,6 +28,7 @@ inline fun Context.toast(message: CharSequence): Toast = Toast
     .apply {
         show()
     }
+
 fun dp2Px(context: Context, dp: Int): Int {
     val density: Float
     density = context.resources.displayMetrics.density
@@ -42,3 +44,16 @@ fun sp2px(context: Context, sp: Float): Float {
     val scaleDensity = context.resources.displayMetrics.scaledDensity
     return (sp * scaleDensity + 0.5).toFloat()
 }
+
+    fun getRoleList(): ArrayList<String> {
+        val wowData: ArrayList<String> = ArrayList()
+        wowData.add("fs")
+        wowData.add("xd")
+        wowData.add("ss")
+        wowData.add("ms")
+        wowData.add("zs")
+        wowData.add("sq")
+        wowData.add("lr")
+        wowData.add("dz")
+        return wowData
+    }
