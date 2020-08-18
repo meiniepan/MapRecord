@@ -299,6 +299,7 @@ class MainActivity : BaseActivity() {
         rvRole?.adapter = roleAdapter
         roleAdapter.setOnItemClickListener { adapter, a, b ->
             tvRoleMain.text = roleList[b].name
+            tvAccountMain.text = roleList[b].account
 
             when (roleList[b].profession) {
                 getRoleList()[0] -> {

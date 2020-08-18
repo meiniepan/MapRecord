@@ -25,9 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/bac_role"
-            android:layout_marginEnd="20dp">
+            android:gravity="center_vertical">
 
             <com.solang.maprecord.utils.RoundImageView
                 android:id="@+id/imgRoleMain"
@@ -37,20 +37,25 @@
 
             <TextView
                 android:id="@+id/tvRoleMain"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text=""
+                android:layout_weight="1"
                 android:maxLines="1"
+                android:text=""
                 android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/tvAccountMain"
                 android:layout_width="wrap_content"
+                android:minWidth="100dp"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:layout_marginLeft="5dp"
-                />
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:maxLines="1"
+                android:text="" />
         </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -65,11 +70,12 @@
                 android:overScrollMode="never" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-<ImageView
-    android:id="@+id/ivAdd"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_gravity="center_horizontal|bottom"
-    android:layout_marginBottom="80dp"
-    android:src="@drawable/ic_add"/>
+
+    <ImageView
+        android:id="@+id/ivAdd"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="80dp"
+        android:src="@drawable/ic_add" />
 </FrameLayout>
