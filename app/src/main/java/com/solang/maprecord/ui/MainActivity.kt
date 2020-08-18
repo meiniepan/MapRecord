@@ -37,6 +37,8 @@ class MainActivity : BaseActivity() {
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var roleList: ArrayList<RoleBean>
     private var mExitTime: Long = 0
+    var firstColor:Int = R.color.colorFs
+    var firstImg:Int = R.mipmap.ic_fs
 
     var currentPerson = ""
 
@@ -108,8 +110,45 @@ class MainActivity : BaseActivity() {
             haveRole = true
             tvRoleMain.text = roleList[0].name
             tvAccountMain.text = roleList[0].account
-            tvRoleMain.setTextColor(resources.getColor(R.color.colorFs))
-            imgRoleMain.setImageResource(R.mipmap.ic_fs)
+            when (roleList[0].profession) {
+                getRoleList()[0] -> {
+                    firstColor = R.color.colorFs
+                    firstImg = R.mipmap.ic_fs
+                }
+                getRoleList()[1] -> {
+                    firstColor = R.color.colorXd
+                    firstImg = R.mipmap.ic_xd
+                }
+                getRoleList()[2] -> {
+                    firstColor = R.color.colorSs
+                    firstImg = R.mipmap.ic_ss
+                }
+                getRoleList()[3] -> {
+                    firstColor = R.color.colorMs
+                    firstImg = R.mipmap.ic_ms
+                }
+                getRoleList()[4] -> {
+                    firstColor = R.color.colorZs
+                    firstImg = R.mipmap.ic_zs
+                }
+                getRoleList()[5] -> {
+                    firstColor = R.color.colorSq
+                    firstImg = R.mipmap.ic_sq
+                }
+                getRoleList()[6] -> {
+                    firstColor = R.color.colorLr
+                    firstImg = R.mipmap.ic_lr
+                }
+                getRoleList()[7] -> {
+                    firstColor = R.color.colorDz
+                    firstImg = R.mipmap.ic_dz
+                }
+
+                else -> {
+                }
+            }
+            tvRoleMain.setTextColor(resources.getColor(firstColor))
+            imgRoleMain.setImageResource(firstImg)
             llRole.setOnClickListener { showRoleDialog() }
         } else {
             imgRoleMain.setImageResource(R.mipmap.ic_emptyy)
