@@ -37,8 +37,8 @@ class MainActivity : BaseActivity() {
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var roleList: ArrayList<RoleBean>
     private var mExitTime: Long = 0
-    var firstColor:Int = R.color.colorFs
-    var firstImg:Int = R.mipmap.ic_fs
+    var firstColor: Int = R.color.colorFs
+    var firstImg: Int = R.mipmap.ic_fs
 
     var currentPerson = ""
 
@@ -90,8 +90,11 @@ class MainActivity : BaseActivity() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         mAdapter = MapAdapter(R.layout.system_item, mData)
         mRvArticle.adapter = mAdapter
-        mAdapter.setOnItemClickListener { adapter, _, _ ->
-            mStartActivity<MapDetailActivity>(this)
+        mAdapter.setOnItemClickListener { adapter, _, p ->
+            mStartActivity<MapDetailActivity>(this){
+                putExtra("flag", p)
+            }
+
         }
 
         mAdapter.setOnItemLongClickListener { adapter, view, position ->
@@ -439,6 +442,10 @@ class MainActivity : BaseActivity() {
             )
             saveRoleInfoList()
             if (!haveRole) {
+                setCurrentRole()
+                SPreference.setContext(applicationContext, currentPerson)
+                initMapData()
+                mAdapter.notifyDataSetChanged()
                 initRoleTitle()
             }
             toast("添加成功")
@@ -448,11 +455,7 @@ class MainActivity : BaseActivity() {
 
 
     private fun markMap(name: String, isMark: String) {
-//        for (bean in mData){
-//            if (bean.name == name){
-//                bean.isMark = isMark
-//            }
-//        }
+        currentPerson
         when (name) {
             Constant.hlmm_name -> {
 
@@ -530,6 +533,7 @@ class MainActivity : BaseActivity() {
         roleList.sortBy {
             it.account
         }
+        SPreference.setContext(this, currentPerson)
     }
 
     override fun onBackPressed() {

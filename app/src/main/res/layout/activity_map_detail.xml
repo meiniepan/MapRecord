@@ -20,26 +20,23 @@
         android:layout_width="match_parent"
         app:white_icon="true"
         android:layout_height="@dimen/title_height" />
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="25dp"
         android:paddingTop="50dp"
+        android:paddingBottom="20dp"
         android:paddingEnd="25dp"
         android:textColor="@color/white"
         android:textSize="22dp"
-        android:text="  如同原版《魔兽世界》一样，祖尔格拉布20人团队副本将有3天的重置周期。
+        />
 
-祖尔格拉布的重置时间在各地区会有所差异，国服将于北京时间4月16日上午6：00开放，首次重置将在开放后小于3天的时候进行。
-
-祖尔格拉布在国服的首次重置时间为北京时间4月18日(周六)上午7点，即副本开启49个小时后重置。
-
-在此之后，副本将恢复正常CD，按计划每72小时重置一次。
-
-总之，国服的祖格第一次重置会提前一天，大家要记得早点打掉以免浪费CD哦！
-
-以上就是魔兽世界怀旧服祖尔格拉布重置CD介绍，希望对各位玩家有所帮助！" />
+</androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>
