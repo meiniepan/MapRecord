@@ -6,6 +6,8 @@ package com.solang.maprecord.beans
  * @date :2020/8/17 11:50 AM
  */
 data class RoleBean(
+    var id:String,
     var name:String,
-    var role:String
+    var profession:String,
+    var account:String
 )

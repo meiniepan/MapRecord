@@ -3,6 +3,8 @@ package com.solang.maprecord.utils
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.beans.MapBean
 
 /**
@@ -45,15 +47,17 @@ fun sp2px(context: Context, sp: Float): Float {
     return (sp * scaleDensity + 0.5).toFloat()
 }
 
-    fun getRoleList(): ArrayList<String> {
-        val wowData: ArrayList<String> = ArrayList()
-        wowData.add("fs")
-        wowData.add("xd")
-        wowData.add("ss")
-        wowData.add("ms")
-        wowData.add("zs")
-        wowData.add("sq")
-        wowData.add("lr")
-        wowData.add("dz")
-        return wowData
-    }
+fun getRoleList(): ArrayList<String> {
+    val wowData: ArrayList<String> = ArrayList()
+    wowData.add("法师")
+    wowData.add("德鲁伊")
+    wowData.add("术士")
+    wowData.add("牧师")
+    wowData.add("战士")
+    wowData.add("圣骑士")
+    wowData.add("猎人")
+    wowData.add("潜行者")
+    return wowData
+}
+
+

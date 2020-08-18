@@ -1,30 +1,41 @@
 package com.solang.maprecord.ui
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.SimpleAdapter
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.R
 import com.solang.maprecord.adapter.RoleAdapter
 import com.solang.maprecord.base.BaseActivity
 import com.solang.maprecord.beans.MapBean
 import com.solang.maprecord.utils.*
-import com.solang.maprecord.adapter.SystemAdapter
+import com.solang.maprecord.adapter.MapAdapter
 import com.solang.maprecord.beans.MapRefreshBean
 import com.solang.maprecord.beans.RoleBean
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_role.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class MainActivity : BaseActivity() {
+    private var haveRole: Boolean = false
     private lateinit var roleAdapter: RoleAdapter
 
     private lateinit var data: ArrayList<HashMap<String, Any>>
+    private lateinit var roleList: ArrayList<RoleBean>
     private var mExitTime: Long = 0
 
     var currentPerson = ""
@@ -42,6 +53,8 @@ class MainActivity : BaseActivity() {
     private var isRefreshBwl: Boolean by SPreference(Constant.IS_REFRESH_BWL, false)
     private var isRefreshTaq: Boolean by SPreference(Constant.IS_REFRESH_TAQ, false)
     private var isRefreshRaq: Boolean by SPreference(Constant.IS_REFRESH_RAQ, false)
+    var emptyJson = Gson().toJson(ArrayList<RoleBean>())
+    private var roleListJson: String by SPreference(Constant.ROLE_LIST, emptyJson)
 
     private var timeRefreshZuge: Long by SPreference(
         Constant.TIME_REFRESH_ZUGE,
@@ -55,32 +68,80 @@ class MainActivity : BaseActivity() {
     private var timeRefreshBwl: Long by SPreference(Constant.TIME_REFRESH_BWL, Constant.bwl_begin)
     private var timeRefreshTaq: Long by SPreference(Constant.TIME_REFRESH_TAQ, Constant.taq_begin)
     private var timeRefreshRaq: Long by SPreference(Constant.TIME_REFRESH_RAQ, Constant.raq_begin)
-    lateinit var mAdapter: SystemAdapter
+    lateinit var mAdapter: MapAdapter
     var mData: ArrayList<MapBean> = ArrayList()
-    var mRoleData: ArrayList<RoleBean> = ArrayList()
 
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
-    override fun initData() {
-        currentPerson = mRoleData[0].name
-        SPreference.setContext(applicationContext, currentPerson)
-        initSpinner()
-        initMapData()
-//        mData.add("安其拉")
+    override fun initView() {
+        initRoleData()
+        initRoleTitle()
+        ivAdd.setOnClickListener {
+            showAddDialog()
+        }
+
+        mSrlRefresh.setOnRefreshListener { mSrlRefresh.isRefreshing = false }
+        mRvArticle?.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        mAdapter = MapAdapter(R.layout.system_item, mData)
+        mRvArticle.adapter = mAdapter
+        mAdapter.setOnItemClickListener { adapter, _, _ ->
+            mStartActivity<MapDetailActivity>(this)
+        }
+
+        mAdapter.setOnItemLongClickListener { adapter, view, position ->
+            if (haveRole) {
+                onDelete(mData[position])
+            } else {
+                toast("有角色后才可以标记哦")
+            }
+            true
+        }
 
     }
 
+    private fun initRoleTitle() {
+        if (roleList.size > 0) {
+            haveRole = true
+            tvRoleMain.text = roleList[0].name
+            tvAccountMain.text = roleList[0].account
+            tvRoleMain.setTextColor(resources.getColor(R.color.colorFs))
+            imgRoleMain.setImageResource(R.mipmap.ic_fs)
+            llRole.setOnClickListener { showRoleDialog() }
+        } else {
+            imgRoleMain.setImageResource(R.mipmap.ic_emptyy)
+            tvRoleMain.setTextColor(resources.getColor(R.color.white))
+            haveRole = false
+            tvRoleMain.text = "按下方的+添加角色"
+            llRole.isClickable = false
+        }
+    }
+
+    override fun initData() {
+        if (haveRole) {
+            setCurrentRole()
+            SPreference.setContext(applicationContext, currentPerson)
+        }
+        initSpinner()
+        initMapData()
+    }
+
+    private fun setCurrentRole(id: String = roleList[0].id) {
+        currentPerson = id
+    }
+
     private fun initRoleData() {
-        mRoleData.add(RoleBean("Triste", "fs"))
-        mRoleData.add(RoleBean("Serafina", "fs"))
-        mRoleData.add(RoleBean("婴寕", "fs"))
-        mRoleData.add(RoleBean("婴宁小兔", "xd"))
-        mRoleData.add(RoleBean("倾婴", "ms"))
-        mRoleData.add(RoleBean("倾婴", "ss"))
-        mRoleData.add(RoleBean("婴宁兔", "sq"))
+//        roleList.add(RoleBean("Triste", "fs"))
+//        roleList.add(RoleBean("Serafina", "fs"))
+//        roleList.add(RoleBean("婴寕", "fs"))
+//        roleList.add(RoleBean("婴宁小兔", "xd"))
+//        roleList.add(RoleBean("倾婴", "ms"))
+//        roleList.add(RoleBean("倾婴", "ss"))
+//        roleList.add(RoleBean("婴宁兔", "sq"))
+        getRoleInfoList()
     }
 
     private fun initSpinner() {
@@ -136,27 +197,6 @@ class MainActivity : BaseActivity() {
         mAdapter.notifyDataSetChanged()
     }
 
-    override fun initView() {
-        initRoleData()
-        tvRoleMain.text = mRoleData[0].name
-        tvRoleMain.setTextColor(resources.getColor(R.color.colorFs))
-        imgRoleMain.setImageResource(R.mipmap.ic_fs)
-        llRole.setOnClickListener { showRoleDialog() }
-        mSrlRefresh.setOnRefreshListener { mSrlRefresh.isRefreshing = false }
-        mRvArticle?.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mAdapter = SystemAdapter(R.layout.system_item, mData)
-        mRvArticle.adapter = mAdapter
-        mAdapter.setOnItemClickListener { adapter, _, _ ->
-            mStartActivity<MapDetailActivity>(this)
-        }
-
-        mAdapter.setOnItemLongClickListener { adapter, view, position ->
-            onDelete(mData[position])
-            true
-        }
-
-    }
 
     private fun initRefreshCD() {
         var map: ArrayList<MapRefreshBean> = ArrayList()
@@ -180,7 +220,7 @@ class MainActivity : BaseActivity() {
         )
         map.add(MapRefreshBean(Constant.raq_name, timeRefreshRaq, isRefreshRaq, Constant.raq_gap))
         map.add(MapRefreshBean(Constant.taq_name, timeRefreshTaq, isRefreshTaq, Constant.taq_gap))
-        for (name in mRoleData) {
+        for (name in roleList) {
             doRefresh(name.name, map)
         }
     }
@@ -233,7 +273,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showRoleDialog() {
-        // 底部弹出对话框
+        // 顶部弹出对话框
         val bottomDialog =
             Dialog(this, R.style.BottomDialog)
         val contentView: View =
@@ -249,12 +289,18 @@ class MainActivity : BaseActivity() {
         var rvRole: RecyclerView = bottomDialog.findViewById(R.id.rvRole)
         rvRole?.layoutManager =
             LinearLayoutManager(this)
-        roleAdapter = RoleAdapter(R.layout.spinner_item, mRoleData)
+        roleAdapter = RoleAdapter(R.layout.spinner_item, roleList)
+        rvRole.addItemDecoration(
+            RecycleViewDivider(
+                dp2Px(this, 1),
+                resources.getColor(R.color.colorPrimary)
+            )
+        )
         rvRole?.adapter = roleAdapter
         roleAdapter.setOnItemClickListener { adapter, a, b ->
-            tvRoleMain.text = mRoleData[b].name
+            tvRoleMain.text = roleList[b].name
 
-            when (mRoleData[b].role) {
+            when (roleList[b].profession) {
                 getRoleList()[0] -> {
                     imgRoleMain.setImageResource(R.mipmap.ic_fs)
                     tvRoleMain.setTextColor(resources.getColor(R.color.colorFs))
@@ -292,7 +338,7 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            currentPerson = mRoleData[b].name
+            setCurrentRole(roleList[b].id)
             SPreference.setContext(applicationContext, currentPerson)
 
             initMapData()
@@ -300,6 +346,64 @@ class MainActivity : BaseActivity() {
             bottomDialog.dismiss()
         }
         bottomDialog.show()
+    }
+
+    /*
+    添加角色的对话框
+     */
+    private fun showAddDialog() {
+        // 底部弹出对话框
+        val bottomDialog =
+            AlertDialog.Builder(this, R.style.BottomDialog)
+        val contentView: View =
+            LayoutInflater.from(this).inflate(R.layout.layout_add_role, null)
+        bottomDialog.setView(contentView)
+
+        val dialog = bottomDialog.show()
+        var cc = getRoleList()
+        var roleProfession: String = cc[0]
+        var roleName: EditText = contentView.findViewById(R.id.et_name_role)
+        var spinnerRole: Spinner = contentView.findViewById(R.id.spn_profession_role)
+        var roleAccount: EditText = contentView.findViewById(R.id.et_account_role)
+        var btnAdd: View = contentView.findViewById(R.id.tvAdd)
+        // Create an ArrayAdapter using a simple spinner layout and languages array
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, cc)
+        // Set layout to use when the list of choices appear
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //Set Adapter to Spinner
+        spinnerRole!!.setAdapter(aa)
+        spinnerRole.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                roleProfession = cc[p2]
+            }
+        }
+        btnAdd.setOnClickListener {
+            if (TextUtils.isEmpty(roleName.text) || TextUtils.isEmpty(roleAccount.text) || TextUtils.isEmpty(
+                    roleProfession
+                )
+            ) {
+                toast("请填写完整")
+                return@setOnClickListener
+            }
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    roleName.text.toString(),
+                    roleProfession,
+                    roleAccount.text.toString()
+                )
+            )
+            saveRoleInfoList()
+            if (!haveRole) {
+                initRoleTitle()
+            }
+            toast("添加成功")
+            dialog.dismiss()
+        }
     }
 
 
@@ -369,6 +473,22 @@ class MainActivity : BaseActivity() {
                 timeRefreshTaq = time2
                 isRefreshTaq = false
             }
+        }
+    }
+
+    fun getRoleInfoList() {
+        SPreference.setContext(this, Constant.ROLE_TABLE)
+        val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
+        val gson = Gson()
+        roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
+
+    }
+
+    fun saveRoleInfoList() {
+        SPreference.setContext(this, Constant.ROLE_TABLE)
+        roleListJson = Gson().toJson(roleList)
+        roleList.sortBy {
+            it.account
         }
     }
 

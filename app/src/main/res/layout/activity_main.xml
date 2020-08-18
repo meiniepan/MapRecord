@@ -33,7 +33,7 @@
                 android:id="@+id/imgRoleMain"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/ic_fs" />
 
             <TextView
                 android:id="@+id/tvRoleMain"
@@ -41,8 +41,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text=""
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="25dp" />
+            <TextView
+                android:id="@+id/tvAccountMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginLeft="5dp"
+                />
         </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -57,5 +65,11 @@
                 android:overScrollMode="never" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-
+<ImageView
+    android:id="@+id/ivAdd"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_gravity="center_horizontal|bottom"
+    android:layout_marginBottom="80dp"
+    android:src="@drawable/ic_add"/>
 </FrameLayout>

@@ -9,6 +9,9 @@ package com.solang.maprecord.utils
  */
 object Constant {
 
+    const val ROLE_TABLE = "role_table"
+    const val ROLE_LIST = "role_list"
+
     const val IS_REFRESH_ZUGE = "is_refresh_zuge"
     const val IS_REFRESH_MC = "is_refresh_mc"
     const val IS_REFRESH_BWL = "is_refresh"

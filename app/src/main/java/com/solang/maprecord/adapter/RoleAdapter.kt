@@ -1,14 +1,9 @@
 package com.solang.maprecord.adapter
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.solang.maprecord.R
-import com.solang.maprecord.beans.MapBean
 import com.solang.maprecord.beans.RoleBean
-import com.solang.maprecord.utils.Constant
-import com.solang.maprecord.utils.TimeUtils
 import com.solang.maprecord.utils.getRoleList
 
 
@@ -25,7 +20,8 @@ class RoleAdapter(layoutId: Int, listData: List<RoleBean>?) :
     override fun convert(viewHolder: BaseViewHolder?, item: RoleBean?) {
         viewHolder?.let { holder ->
             holder.setText(R.id.tv1, item?.name)
-            when (item?.role) {
+                .setText(R.id.tvAccount,item?.account)
+            when (item?.profession) {
                 getRoleList()[0] -> {
                     holder.setImageResource(R.id.img, R.mipmap.ic_fs)
                         .setTextColor(R.id.tv1, mContext.resources.getColor(R.color.colorFs))

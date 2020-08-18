@@ -17,7 +17,7 @@ import com.solang.maprecord.utils.TimeUtils
  * @date: 2020/02/27
  * Time: 17:32
  */
-class SystemAdapter(layoutId: Int, listData: List<MapBean>?) :
+class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
     BaseQuickAdapter<MapBean, BaseViewHolder>(layoutId, listData) {
 
     override fun convert(viewHolder: BaseViewHolder?, item: MapBean?) {
