@@ -2,6 +2,7 @@ package com.solang.maprecord.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
@@ -15,6 +16,7 @@ import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.chad.library.adapter.base.listener.OnItemLongClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.R
@@ -387,6 +389,27 @@ class MainActivity : BaseActivity() {
             initMapData()
             mAdapter.notifyDataSetChanged()
             bottomDialog.dismiss()
+        }
+
+        roleAdapter.setOnItemLongClickListener{ adapter, view, position ->
+            val msg = "确定要删除角色吗"
+            val msg2 = "注意"
+
+            AlertDialog.Builder(this)
+                .setMessage(msg)
+                .setTitle(msg2)
+                .setPositiveButton("确定", DialogInterface.OnClickListener { d, _ ->
+                    roleList.removeAt(position)
+                    saveRoleInfoList()
+                    roleAdapter.notifyDataSetChanged()
+                    initRoleTitle()
+                    d.cancel()
+                })
+                .setNeutralButton("取消", null)
+                .create()
+                .show()
+
+            true
         }
         bottomDialog.show()
     }
