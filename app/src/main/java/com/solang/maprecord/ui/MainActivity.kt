@@ -398,7 +398,7 @@ class MainActivity : BaseActivity() {
             AlertDialog.Builder(this)
                 .setMessage(msg)
                 .setTitle(msg2)
-                .setPositiveButton("确定", DialogInterface.OnClickListener { d, _ ->
+                .setPositiveButton("确定2", DialogInterface.OnClickListener { d, _ ->
                     roleList.removeAt(position)
                     saveRoleInfoList()
                     roleAdapter.notifyDataSetChanged()
