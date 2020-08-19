@@ -1,4 +1,6 @@
 *.iml
+*.bat
+*.apk
 .gradle
 /local.properties
 .DS_Store
