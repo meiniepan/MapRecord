@@ -9,14 +9,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.chad.library.adapter.base.listener.OnItemLongClickListener
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.R
@@ -93,7 +90,7 @@ class MainActivity : BaseActivity() {
         mAdapter = MapAdapter(R.layout.system_item, mData)
         mRvArticle.adapter = mAdapter
         mAdapter.setOnItemClickListener { adapter, _, p ->
-            mStartActivity<MapDetailActivity>(this){
+            mStartActivity<MapDetailActivity>(this) {
                 putExtra("flag", p)
             }
 
@@ -391,19 +388,15 @@ class MainActivity : BaseActivity() {
             bottomDialog.dismiss()
         }
 
-        roleAdapter.setOnItemLongClickListener{ adapter, view, position ->
-            val msg = "确定要删除角色吗"
-            val msg2 = "注意"
-
+        roleAdapter.setOnItemLongClickListener { adapter, view, position ->
             AlertDialog.Builder(this)
-                .setMessage(msg)
-                .setTitle(msg2)
-                .setPositiveButton("确定2", DialogInterface.OnClickListener { d, _ ->
+                .setMessage("确定删除该角色？")
+                .setTitle("提示")
+                .setPositiveButton("确定", DialogInterface.OnClickListener { dialogInterface, i ->
                     roleList.removeAt(position)
                     saveRoleInfoList()
                     roleAdapter.notifyDataSetChanged()
                     initRoleTitle()
-                    d.cancel()
                 })
                 .setNeutralButton("取消", null)
                 .create()
