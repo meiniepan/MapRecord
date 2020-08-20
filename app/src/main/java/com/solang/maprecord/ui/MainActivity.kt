@@ -535,7 +535,7 @@ class MainActivity : BaseActivity() {
         val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
         val gson = Gson()
         roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
-        if (!isInitRole) {
+        if (isInitRole) {
             roleList.add(
                 RoleBean(
                     UUID.randomUUID().toString().replace("-", ""),
