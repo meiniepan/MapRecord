@@ -179,20 +179,21 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initMapData() {
-        if (mData.size == 0) {
-            mData.add(MapBean(Constant.taq_name, isTaq))
-
-            mData.add(MapBean(Constant.raq_name, isRaq))
-
-            mData.add(MapBean(Constant.mc_name, isMc))
-
-            mData.add(MapBean(Constant.bwl_name, isBwl))
-
-            mData.add(MapBean(Constant.hlmm_name, isHlmm))
-
-            mData.add(MapBean(Constant.zuge_name, isZuge))
-        }
+        mData.clear()
         changeList.clear()
+            mData.add(MapBean(Constant.taq_name, isTaq))
+            changeList.add(0)
+            mData.add(MapBean(Constant.raq_name, isRaq))
+            changeList.add(1)
+            mData.add(MapBean(Constant.mc_name, isMc))
+            changeList.add(2)
+            mData.add(MapBean(Constant.bwl_name, isBwl))
+            changeList.add(3)
+            mData.add(MapBean(Constant.hlmm_name, isHlmm))
+            changeList.add(4)
+            mData.add(MapBean(Constant.zuge_name, isZuge))
+            changeList.add(5)
+
         if (isTaq != mData[0].isMark) {
             changeList.add(0)
         }
@@ -225,6 +226,7 @@ class MainActivity : BaseActivity() {
         for (i in changeList) {
             mAdapter.notifyItemChanged(i)
         }
+        changeList.clear()
     }
 
     private fun initRefreshCD() {
@@ -369,7 +371,6 @@ class MainActivity : BaseActivity() {
 
             setCurrentRole(roleList[b].id)
             SPreference.setContext(applicationContext, currentPerson)
-
             initMapData()
             myNotify()
             bottomDialog.dismiss()
@@ -540,67 +541,67 @@ class MainActivity : BaseActivity() {
         val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
         val gson = Gson()
         roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
-        if (isInitRole) {
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "Triste",
-                    getRoleList()[0],
-                    "imqq_2002@163.com"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "Serafina",
-                    getRoleList()[0],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴寕",
-                    getRoleList()[0],
-                    "18810472753"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴宁小兔",
-                    getRoleList()[1],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "倾婴",
-                    getRoleList()[3],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "倾婴",
-                    getRoleList()[2],
-                    "18810472753"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴宁兔",
-                    getRoleList()[5],
-                    "18810472753"
-                )
-            )
-            isInitRole = true
-            setCurrentRole()
-            saveRoleInfoList()
-        }
+//        if (isInitRole) {
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "Triste",
+//                    getRoleList()[0],
+//                    "imqq_2002@163.com"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "Serafina",
+//                    getRoleList()[0],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴寕",
+//                    getRoleList()[0],
+//                    "18810472753"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴宁小兔",
+//                    getRoleList()[1],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "倾婴",
+//                    getRoleList()[3],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "倾婴",
+//                    getRoleList()[2],
+//                    "18810472753"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴宁兔",
+//                    getRoleList()[5],
+//                    "18810472753"
+//                )
+//            )
+//            isInitRole = true
+//            setCurrentRole()
+//            saveRoleInfoList()
+//        }
     }
 
     fun saveRoleInfoList() {
