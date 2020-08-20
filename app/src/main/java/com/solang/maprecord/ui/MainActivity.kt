@@ -41,6 +41,8 @@ class MainActivity : BaseActivity() {
 
     var currentPerson = ""
 
+    private var isInitRole: Boolean by SPreference(Constant.IS_INIT_ROLE, false)
+
     private var isHlmm: String by SPreference(Constant.hlmm, "1")
     private var isMc: String by SPreference(Constant.mc, "1")
     private var isBwl: String by SPreference(Constant.bwl, "1")
@@ -84,7 +86,6 @@ class MainActivity : BaseActivity() {
             showAddDialog()
         }
 
-        mSrlRefresh.setOnRefreshListener { mSrlRefresh.isRefreshing = false }
         mRvArticle?.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         mAdapter = MapAdapter(R.layout.system_item, mData)
@@ -175,13 +176,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initRoleData() {
-//        roleList.add(RoleBean("Triste", "fs"))
-//        roleList.add(RoleBean("Serafina", "fs"))
-//        roleList.add(RoleBean("婴寕", "fs"))
-//        roleList.add(RoleBean("婴宁小兔", "xd"))
-//        roleList.add(RoleBean("倾婴", "ms"))
-//        roleList.add(RoleBean("倾婴", "ss"))
-//        roleList.add(RoleBean("婴宁兔", "sq"))
+
         getRoleInfoList()
     }
 
@@ -262,7 +257,7 @@ class MainActivity : BaseActivity() {
         map.add(MapRefreshBean(Constant.raq_name, timeRefreshRaq, isRefreshRaq, Constant.raq_gap))
         map.add(MapRefreshBean(Constant.taq_name, timeRefreshTaq, isRefreshTaq, Constant.taq_gap))
         for (name in roleList) {
-            doRefresh(name.name, map)
+            doRefresh(name.id, map)
         }
     }
 
@@ -295,7 +290,6 @@ class MainActivity : BaseActivity() {
         params.bottomMargin = dp2Px(this, 8)
         contentView.layoutParams = params
         bottomDialog.window!!.setGravity(Gravity.CENTER)
-        bottomDialog.window!!.setWindowAnimations(R.style.BottomDialog_Animation)
         bottomDialog.show()
         contentView.findViewById<View>(R.id.tvMarkNo)
             .setOnClickListener { v: View? ->
@@ -441,11 +435,11 @@ class MainActivity : BaseActivity() {
             }
         }
         btnAdd.setOnClickListener {
-            if (TextUtils.isEmpty(roleName.text) || TextUtils.isEmpty(roleAccount.text) || TextUtils.isEmpty(
+            if (TextUtils.isEmpty(roleName.text) || TextUtils.isEmpty(
                     roleProfession
                 )
             ) {
-                toast("请填写完整")
+                toast("请填写角色名")
                 return@setOnClickListener
             }
             roleList.add(
@@ -537,10 +531,69 @@ class MainActivity : BaseActivity() {
 
     fun getRoleInfoList() {
         SPreference.setContext(this, Constant.ROLE_TABLE)
+
         val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
         val gson = Gson()
         roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
-
+        if (!isInitRole) {
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "Triste",
+                    getRoleList()[0],
+                    "imqq_2002@163.com"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "Serafina",
+                    getRoleList()[0],
+                    "18500925718"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "婴寕",
+                    getRoleList()[0],
+                    "18810472753"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "婴宁小兔",
+                    getRoleList()[1],
+                    "18500925718"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "倾婴",
+                    getRoleList()[3],
+                    "18500925718"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "倾婴",
+                    getRoleList()[2],
+                    "18810472753"
+                )
+            )
+            roleList.add(
+                RoleBean(
+                    UUID.randomUUID().toString().replace("-", ""),
+                    "婴宁兔",
+                    getRoleList()[5],
+                    "18810472753"
+                )
+            )
+            isInitRole = true
+        }
     }
 
     fun saveRoleInfoList() {

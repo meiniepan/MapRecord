@@ -30,6 +30,7 @@ object Constant {
     const val zuge = "zuge"
     const val mc = "mc"
     const val bwl = "bwl"
+    const val IS_INIT_ROLE = "is_init_role"
     const val hlmm = "hlmm"
     const val taq = "taq"
     const val raq = "raq"

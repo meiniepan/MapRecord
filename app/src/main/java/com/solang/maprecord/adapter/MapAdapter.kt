@@ -2,12 +2,19 @@ package com.solang.maprecord.adapter
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.solang.maprecord.R
 import com.solang.maprecord.beans.MapBean
 import com.solang.maprecord.utils.Constant
 import com.solang.maprecord.utils.TimeUtils
+import kotlin.jvm.internal.Intrinsics
 
 
 /**
@@ -22,12 +29,17 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
 
     override fun convert(viewHolder: BaseViewHolder?, item: MapBean?) {
         viewHolder?.let { holder ->
+           var ll :LinearLayout = holder.getView(R.id.llBorder)
+
             when {
                 item?.isMark == "1" -> {
-                    holder.setBackgroundColor(R.id.tvName,mContext.resources.getColor(R.color.white))
+                    ll.backgroundTintList = null
+                    holder.setTextColor(R.id.tvName, mContext.resources.getColor(R.color.commonYellow))
                 }
                 item?.isMark == "0" -> {
-                    holder.setBackgroundColor(R.id.tvName,mContext.resources.getColor(R.color.common_gray))
+                    ll.backgroundTintList = (getColorStateList(mContext))
+                    holder.setTextColor(R.id.tvName, mContext.resources.getColor(R.color.baseBac2))
+
                 }}
             holder.setText(R.id.tvName, item?.name)
             var timeBegin: Long = 0
@@ -92,5 +104,19 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
         set.interpolator = CustomScaleInterpolator(0.4f)
         set.playTogether(animatorX, animatorY)
         set.start()
+    }
+    fun getColorStateList(context: Context): ColorStateList {
+        Intrinsics.checkParameterIsNotNull(context, "context")
+        val colors = intArrayOf(
+            ContextCompat.getColor(context!!, R.color.common_gray),
+            ContextCompat.getColor(context!!, R.color.common_gray)
+        )
+        val states = arrayOf(
+            intArrayOf(
+                android.R.attr.state_checked,
+                android.R.attr.state_checked
+            ), IntArray(0)
+        )
+        return ColorStateList(states, colors)
     }
 }
