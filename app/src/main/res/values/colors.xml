@@ -12,6 +12,7 @@
     <color name="common_hint">#D3D9E0</color>
     <color name="common_gray">#918989</color>
     <color name="commonBlue">#5E37FF</color>
+    <color name="commonYellow">#CC8A28</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
 <!--职业颜色-->
