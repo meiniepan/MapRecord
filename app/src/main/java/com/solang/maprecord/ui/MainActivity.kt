@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.R
@@ -31,6 +29,7 @@ import kotlin.collections.HashMap
 
 class MainActivity : BaseActivity() {
     private var haveRole: Boolean = false
+    private var changeList: ArrayList<Int> = ArrayList()
     private lateinit var roleAdapter: RoleAdapter
 
     private lateinit var data: ArrayList<HashMap<String, Any>>
@@ -88,7 +87,7 @@ class MainActivity : BaseActivity() {
 
         mRvArticle?.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mAdapter = MapAdapter(R.layout.system_item, mData)
+        mAdapter = MapAdapter(R.layout.item_map, mData)
         mRvArticle.adapter = mAdapter
         mAdapter.setOnItemClickListener { adapter, _, p ->
             mStartActivity<MapDetailActivity>(this) {
@@ -167,7 +166,6 @@ class MainActivity : BaseActivity() {
             setCurrentRole()
             SPreference.setContext(applicationContext, currentPerson)
         }
-        initSpinner()
         initMapData()
     }
 
@@ -180,49 +178,39 @@ class MainActivity : BaseActivity() {
         getRoleInfoList()
     }
 
-    private fun initSpinner() {
-//        val intArr: IntArray = intArrayOf(R.id.img, R.id.tv1)
-//        var simp_adapter = SimpleAdapter(
-//            this, getData(), R.layout.spinner_item, arrayOf("img", "tv1"),
-//            intArr
-//        );
-//        //Adapter设置一个下拉列表样式(上一步只是一个下拉列表框（不包括下拉菜单），这里要设置下拉菜单的样式)
-//        simp_adapter.setDropDownViewResource(R.layout.spinner_item);
-//
-//        //Set Adapter to Spinner
-//        spinner.setAdapter(simp_adapter)
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//
-//            }
-//
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                currentPerson = data[p2].get("tv1").toString()
-//                SPreference.setContext(applicationContext,currentPerson )
-////                Glide.with(this@MainActivity)
-////                    .load(data[p2].get("img"))
-////                    .transform(GlideCircleBorderTransform(1f,R.color.white))
-////                    .into(img)
-//                initMapData()
-//                mAdapter.notifyDataSetChanged()
-//            }
-//        }
-    }
-
     private fun initMapData() {
-        mData.clear()
-        mData.add(MapBean(Constant.taq_name, isTaq))
+        if (mData.size == 0) {
+            mData.add(MapBean(Constant.taq_name, isTaq))
 
-        mData.add(MapBean(Constant.raq_name, isRaq))
+            mData.add(MapBean(Constant.raq_name, isRaq))
 
-        mData.add(MapBean(Constant.mc_name, isMc))
+            mData.add(MapBean(Constant.mc_name, isMc))
 
-        mData.add(MapBean(Constant.bwl_name, isBwl))
+            mData.add(MapBean(Constant.bwl_name, isBwl))
 
-        mData.add(MapBean(Constant.hlmm_name, isHlmm))
+            mData.add(MapBean(Constant.hlmm_name, isHlmm))
 
-        mData.add(MapBean(Constant.zuge_name, isZuge))
-
+            mData.add(MapBean(Constant.zuge_name, isZuge))
+        }
+        changeList.clear()
+        if (isTaq != mData[0].isMark) {
+            changeList.add(0)
+        }
+        if (isRaq != mData[1].isMark) {
+            changeList.add(1)
+        }
+        if (isMc != mData[2].isMark) {
+            changeList.add(2)
+        }
+        if (isBwl != mData[3].isMark) {
+            changeList.add(3)
+        }
+        if (isHlmm != mData[4].isMark) {
+            changeList.add(4)
+        }
+        if (isZuge != mData[5].isMark) {
+            changeList.add(5)
+        }
     }
 
     override fun onResume() {
@@ -230,9 +218,14 @@ class MainActivity : BaseActivity() {
         initRefreshCD()
         SPreference.setContext(applicationContext, currentPerson)
         initMapData()
-        mAdapter.notifyDataSetChanged()
+        myNotify()
     }
 
+    private fun myNotify() {
+        for (i in changeList) {
+            mAdapter.notifyItemChanged(i)
+        }
+    }
 
     private fun initRefreshCD() {
         var map: ArrayList<MapRefreshBean> = ArrayList()
@@ -295,14 +288,14 @@ class MainActivity : BaseActivity() {
             .setOnClickListener { v: View? ->
                 get.isMark = "1"
                 markMap(get.name, "1")
-                mAdapter.notifyDataSetChanged()
+                myNotify()
                 bottomDialog.dismiss()
             }
         contentView.findViewById<View>(R.id.tvMark)
             .setOnClickListener { v: View? ->
                 get.isMark = "0"
                 markMap(get.name, "0")
-                mAdapter.notifyDataSetChanged()
+                myNotify()
                 bottomDialog.dismiss()
             }
     }
@@ -378,7 +371,7 @@ class MainActivity : BaseActivity() {
             SPreference.setContext(applicationContext, currentPerson)
 
             initMapData()
-            mAdapter.notifyDataSetChanged()
+            myNotify()
             bottomDialog.dismiss()
         }
 
@@ -455,7 +448,7 @@ class MainActivity : BaseActivity() {
                 setCurrentRole()
                 SPreference.setContext(applicationContext, currentPerson)
                 initMapData()
-                mAdapter.notifyDataSetChanged()
+                myNotify()
                 initRoleTitle()
             }
             toast("添加成功")
@@ -465,32 +458,44 @@ class MainActivity : BaseActivity() {
 
 
     private fun markMap(name: String, isMark: String) {
+        changeList.clear()
         currentPerson
         when (name) {
-            Constant.hlmm_name -> {
-
-                isHlmm = isMark
-
-            }
-            Constant.mc_name -> {
-                isMc = isMark
-
-            }
-            Constant.bwl_name -> {
-                isBwl = isMark
-
-            }
-            Constant.zuge_name -> {
-                isZuge = isMark
-
+            Constant.taq_name -> {
+                if (isTaq != isMark) {
+                    isTaq = isMark
+                    changeList.add(0)
+                }
             }
             Constant.raq_name -> {
-                isRaq = isMark
-
+                if (isRaq != isMark) {
+                    isRaq = isMark
+                    changeList.add(1)
+                }
             }
-            Constant.taq_name -> {
-                isTaq = isMark
-
+            Constant.mc_name -> {
+                if (isMc != isMark) {
+                    isMc = isMark
+                    changeList.add(2)
+                }
+            }
+            Constant.bwl_name -> {
+                if (isBwl != isMark) {
+                    isBwl = isMark
+                    changeList.add(3)
+                }
+            }
+            Constant.hlmm_name -> {
+                if (isHlmm != isMark) {
+                    isHlmm = isMark
+                    changeList.add(4)
+                }
+            }
+            Constant.zuge_name -> {
+                if (isZuge != isMark) {
+                    isZuge = isMark
+                    changeList.add(5)
+                }
             }
         }
     }
