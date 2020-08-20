@@ -286,7 +286,7 @@ class MainActivity : BaseActivity() {
         bottomDialog.setContentView(contentView)
         val params = contentView.layoutParams as ViewGroup.MarginLayoutParams
         params.width =
-            resources.displayMetrics.widthPixels - dp2Px(this, 16)
+            resources.displayMetrics.widthPixels - dp2Px(this, 200)
         params.bottomMargin = dp2Px(this, 8)
         contentView.layoutParams = params
         bottomDialog.window!!.setGravity(Gravity.CENTER)
@@ -593,6 +593,7 @@ class MainActivity : BaseActivity() {
                 )
             )
             isInitRole = true
+            saveRoleInfoList()
         }
     }
 

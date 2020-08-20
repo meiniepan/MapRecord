@@ -33,12 +33,14 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
 
             when {
                 item?.isMark == "1" -> {
-                    ll.backgroundTintList = null
+                    ll.setBackgroundResource(R.mipmap.bac_border)
                     holder.setTextColor(R.id.tvName, mContext.resources.getColor(R.color.commonYellow))
+                    holder.setTextColor(R.id.tvTime, mContext.resources.getColor(R.color.purple))
                 }
                 item?.isMark == "0" -> {
-                    ll.backgroundTintList = (getColorStateList(mContext))
+                    ll.setBackgroundResource(R.mipmap.bac_sss)
                     holder.setTextColor(R.id.tvName, mContext.resources.getColor(R.color.baseBac2))
+                    holder.setTextColor(R.id.tvTime, mContext.resources.getColor(R.color.baseBac2))
 
                 }}
             holder.setText(R.id.tvName, item?.name)
