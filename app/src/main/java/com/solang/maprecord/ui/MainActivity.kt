@@ -593,16 +593,17 @@ class MainActivity : BaseActivity() {
                 )
             )
             isInitRole = true
+            setCurrentRole()
             saveRoleInfoList()
         }
     }
 
     fun saveRoleInfoList() {
         SPreference.setContext(this, Constant.ROLE_TABLE)
-        roleListJson = Gson().toJson(roleList)
         roleList.sortBy {
             it.account
         }
+        roleListJson = Gson().toJson(roleList)
         SPreference.setContext(this, currentPerson)
     }
 
