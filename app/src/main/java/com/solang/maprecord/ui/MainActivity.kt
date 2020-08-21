@@ -231,6 +231,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onResume() {
+
         super.onResume()
         initRefreshCD()
         SPreference.setContext(applicationContext, currentPerson)
