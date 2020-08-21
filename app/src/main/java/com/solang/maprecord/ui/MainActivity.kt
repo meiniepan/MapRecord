@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.solang.maprecord.R
@@ -31,6 +29,7 @@ import kotlin.collections.HashMap
 
 class MainActivity : BaseActivity() {
     private var haveRole: Boolean = false
+    private var changeList: ArrayList<Int> = ArrayList()
     private lateinit var roleAdapter: RoleAdapter
 
     private lateinit var data: ArrayList<HashMap<String, Any>>
@@ -88,7 +87,7 @@ class MainActivity : BaseActivity() {
 
         mRvArticle?.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mAdapter = MapAdapter(R.layout.system_item, mData)
+        mAdapter = MapAdapter(R.layout.item_map, mData)
         mRvArticle.adapter = mAdapter
         mAdapter.setOnItemClickListener { adapter, _, p ->
             mStartActivity<MapDetailActivity>(this) {
@@ -157,7 +156,7 @@ class MainActivity : BaseActivity() {
             imgRoleMain.setImageResource(R.mipmap.ic_emptyy)
             tvRoleMain.setTextColor(resources.getColor(R.color.white))
             haveRole = false
-            tvRoleMain.text = "按下方的+添加角色"
+            tvRoleMain.text = "按右边的+添加角色"
             llRole.isClickable = false
         }
     }
@@ -167,7 +166,6 @@ class MainActivity : BaseActivity() {
             setCurrentRole()
             SPreference.setContext(applicationContext, currentPerson)
         }
-        initSpinner()
         initMapData()
     }
 
@@ -180,59 +178,73 @@ class MainActivity : BaseActivity() {
         getRoleInfoList()
     }
 
-    private fun initSpinner() {
-//        val intArr: IntArray = intArrayOf(R.id.img, R.id.tv1)
-//        var simp_adapter = SimpleAdapter(
-//            this, getData(), R.layout.spinner_item, arrayOf("img", "tv1"),
-//            intArr
-//        );
-//        //Adapter设置一个下拉列表样式(上一步只是一个下拉列表框（不包括下拉菜单），这里要设置下拉菜单的样式)
-//        simp_adapter.setDropDownViewResource(R.layout.spinner_item);
-//
-//        //Set Adapter to Spinner
-//        spinner.setAdapter(simp_adapter)
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//
-//            }
-//
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                currentPerson = data[p2].get("tv1").toString()
-//                SPreference.setContext(applicationContext,currentPerson )
-////                Glide.with(this@MainActivity)
-////                    .load(data[p2].get("img"))
-////                    .transform(GlideCircleBorderTransform(1f,R.color.white))
-////                    .into(img)
-//                initMapData()
-//                mAdapter.notifyDataSetChanged()
-//            }
-//        }
-    }
-
     private fun initMapData() {
         mData.clear()
-        mData.add(MapBean(Constant.taq_name, isTaq))
+        changeList.clear()
+            mData.add(MapBean(Constant.taq_name, isTaq))
+            changeList.add(0)
+            mData.add(MapBean(Constant.raq_name, isRaq))
+            changeList.add(1)
+            mData.add(MapBean(Constant.mc_name, isMc))
+            changeList.add(2)
+            mData.add(MapBean(Constant.bwl_name, isBwl))
+            changeList.add(3)
+            mData.add(MapBean(Constant.hlmm_name, isHlmm))
+            changeList.add(4)
+            mData.add(MapBean(Constant.zuge_name, isZuge))
+            changeList.add(5)
+    }
 
-        mData.add(MapBean(Constant.raq_name, isRaq))
+    private fun refreshMapData() {
+        changeList.clear()
 
-        mData.add(MapBean(Constant.mc_name, isMc))
-
-        mData.add(MapBean(Constant.bwl_name, isBwl))
-
-        mData.add(MapBean(Constant.hlmm_name, isHlmm))
-
-        mData.add(MapBean(Constant.zuge_name, isZuge))
-
+        if (isTaq != mData[0].isMark) {
+            changeList.add(0)
+            mData.removeAt(0)
+            mData.add(0,MapBean(Constant.taq_name, isTaq))
+        }
+        if (isRaq != mData[1].isMark) {
+            changeList.add(1)
+            mData.removeAt(1)
+            mData.add(1,MapBean(Constant.raq_name, isRaq))
+        }
+        if (isMc != mData[2].isMark) {
+            changeList.add(2)
+            mData.removeAt(2)
+            mData.add(2,MapBean(Constant.mc_name, isMc))
+        }
+        if (isBwl != mData[3].isMark) {
+            changeList.add(3)
+            mData.removeAt(3)
+            mData.add(3,MapBean(Constant.bwl_name, isBwl))
+        }
+        if (isHlmm != mData[4].isMark) {
+            changeList.add(4)
+            mData.removeAt(4)
+            mData.add(4,MapBean(Constant.hlmm_name, isHlmm))
+        }
+        if (isZuge != mData[5].isMark) {
+            changeList.add(5)
+            mData.removeAt(5)
+            mData.add(5,MapBean(Constant.zuge_name, isZuge))
+        }
     }
 
     override fun onResume() {
+
         super.onResume()
         initRefreshCD()
         SPreference.setContext(applicationContext, currentPerson)
-        initMapData()
-        mAdapter.notifyDataSetChanged()
+        refreshMapData()
+        myNotify()
     }
 
+    private fun myNotify() {
+        for (i in changeList) {
+            mAdapter.notifyItemChanged(i)
+        }
+        changeList.clear()
+    }
 
     private fun initRefreshCD() {
         var map: ArrayList<MapRefreshBean> = ArrayList()
@@ -295,14 +307,14 @@ class MainActivity : BaseActivity() {
             .setOnClickListener { v: View? ->
                 get.isMark = "1"
                 markMap(get.name, "1")
-                mAdapter.notifyDataSetChanged()
+                myNotify()
                 bottomDialog.dismiss()
             }
         contentView.findViewById<View>(R.id.tvMark)
             .setOnClickListener { v: View? ->
                 get.isMark = "0"
                 markMap(get.name, "0")
-                mAdapter.notifyDataSetChanged()
+                myNotify()
                 bottomDialog.dismiss()
             }
     }
@@ -376,9 +388,8 @@ class MainActivity : BaseActivity() {
 
             setCurrentRole(roleList[b].id)
             SPreference.setContext(applicationContext, currentPerson)
-
-            initMapData()
-            mAdapter.notifyDataSetChanged()
+            refreshMapData()
+            myNotify()
             bottomDialog.dismiss()
         }
 
@@ -454,8 +465,8 @@ class MainActivity : BaseActivity() {
             if (!haveRole) {
                 setCurrentRole()
                 SPreference.setContext(applicationContext, currentPerson)
-                initMapData()
-                mAdapter.notifyDataSetChanged()
+                refreshMapData()
+                myNotify()
                 initRoleTitle()
             }
             toast("添加成功")
@@ -465,32 +476,44 @@ class MainActivity : BaseActivity() {
 
 
     private fun markMap(name: String, isMark: String) {
+        changeList.clear()
         currentPerson
         when (name) {
-            Constant.hlmm_name -> {
-
-                isHlmm = isMark
-
-            }
-            Constant.mc_name -> {
-                isMc = isMark
-
-            }
-            Constant.bwl_name -> {
-                isBwl = isMark
-
-            }
-            Constant.zuge_name -> {
-                isZuge = isMark
-
+            Constant.taq_name -> {
+                if (isTaq != isMark) {
+                    isTaq = isMark
+                    changeList.add(0)
+                }
             }
             Constant.raq_name -> {
-                isRaq = isMark
-
+                if (isRaq != isMark) {
+                    isRaq = isMark
+                    changeList.add(1)
+                }
             }
-            Constant.taq_name -> {
-                isTaq = isMark
-
+            Constant.mc_name -> {
+                if (isMc != isMark) {
+                    isMc = isMark
+                    changeList.add(2)
+                }
+            }
+            Constant.bwl_name -> {
+                if (isBwl != isMark) {
+                    isBwl = isMark
+                    changeList.add(3)
+                }
+            }
+            Constant.hlmm_name -> {
+                if (isHlmm != isMark) {
+                    isHlmm = isMark
+                    changeList.add(4)
+                }
+            }
+            Constant.zuge_name -> {
+                if (isZuge != isMark) {
+                    isZuge = isMark
+                    changeList.add(5)
+                }
             }
         }
     }
@@ -535,67 +558,67 @@ class MainActivity : BaseActivity() {
         val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
         val gson = Gson()
         roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
-        if (isInitRole) {
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "Triste",
-                    getRoleList()[0],
-                    "imqq_2002@163.com"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "Serafina",
-                    getRoleList()[0],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴寕",
-                    getRoleList()[0],
-                    "18810472753"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴宁小兔",
-                    getRoleList()[1],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "倾婴",
-                    getRoleList()[3],
-                    "18500925718"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "倾婴",
-                    getRoleList()[2],
-                    "18810472753"
-                )
-            )
-            roleList.add(
-                RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
-                    "婴宁兔",
-                    getRoleList()[5],
-                    "18810472753"
-                )
-            )
-            isInitRole = true
-            setCurrentRole()
-            saveRoleInfoList()
-        }
+//        if (isInitRole) {
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "Triste",
+//                    getRoleList()[0],
+//                    "imqq_2002@163.com"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "Serafina",
+//                    getRoleList()[0],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴寕",
+//                    getRoleList()[0],
+//                    "18810472753"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴宁小兔",
+//                    getRoleList()[1],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "倾婴",
+//                    getRoleList()[3],
+//                    "18500925718"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "倾婴",
+//                    getRoleList()[2],
+//                    "18810472753"
+//                )
+//            )
+//            roleList.add(
+//                RoleBean(
+//                    UUID.randomUUID().toString().replace("-", ""),
+//                    "婴宁兔",
+//                    getRoleList()[5],
+//                    "18810472753"
+//                )
+//            )
+//            isInitRole = true
+//            setCurrentRole()
+//            saveRoleInfoList()
+//        }
     }
 
     fun saveRoleInfoList() {
