@@ -156,7 +156,7 @@ class MainActivity : BaseActivity() {
             imgRoleMain.setImageResource(R.mipmap.ic_emptyy)
             tvRoleMain.setTextColor(resources.getColor(R.color.white))
             haveRole = false
-            tvRoleMain.text = "按下方的+添加角色"
+            tvRoleMain.text = "按右边的+添加角色"
             llRole.isClickable = false
         }
     }
@@ -193,24 +193,40 @@ class MainActivity : BaseActivity() {
             changeList.add(4)
             mData.add(MapBean(Constant.zuge_name, isZuge))
             changeList.add(5)
+    }
+
+    private fun refreshMapData() {
+        changeList.clear()
 
         if (isTaq != mData[0].isMark) {
             changeList.add(0)
+            mData.removeAt(0)
+            mData.add(0,MapBean(Constant.taq_name, isTaq))
         }
         if (isRaq != mData[1].isMark) {
             changeList.add(1)
+            mData.removeAt(1)
+            mData.add(1,MapBean(Constant.raq_name, isRaq))
         }
         if (isMc != mData[2].isMark) {
             changeList.add(2)
+            mData.removeAt(2)
+            mData.add(2,MapBean(Constant.mc_name, isMc))
         }
         if (isBwl != mData[3].isMark) {
             changeList.add(3)
+            mData.removeAt(3)
+            mData.add(3,MapBean(Constant.bwl_name, isBwl))
         }
         if (isHlmm != mData[4].isMark) {
             changeList.add(4)
+            mData.removeAt(4)
+            mData.add(4,MapBean(Constant.hlmm_name, isHlmm))
         }
         if (isZuge != mData[5].isMark) {
             changeList.add(5)
+            mData.removeAt(5)
+            mData.add(5,MapBean(Constant.zuge_name, isZuge))
         }
     }
 
@@ -218,7 +234,7 @@ class MainActivity : BaseActivity() {
         super.onResume()
         initRefreshCD()
         SPreference.setContext(applicationContext, currentPerson)
-        initMapData()
+        refreshMapData()
         myNotify()
     }
 
@@ -371,7 +387,7 @@ class MainActivity : BaseActivity() {
 
             setCurrentRole(roleList[b].id)
             SPreference.setContext(applicationContext, currentPerson)
-            initMapData()
+            refreshMapData()
             myNotify()
             bottomDialog.dismiss()
         }
@@ -448,7 +464,7 @@ class MainActivity : BaseActivity() {
             if (!haveRole) {
                 setCurrentRole()
                 SPreference.setContext(applicationContext, currentPerson)
-                initMapData()
+                refreshMapData()
                 myNotify()
                 initRoleTitle()
             }
