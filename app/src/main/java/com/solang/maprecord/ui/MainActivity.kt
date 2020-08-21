@@ -40,8 +40,6 @@ class MainActivity : BaseActivity() {
 
     var currentPerson = ""
 
-    private var isInitRole: Boolean by SPreference(Constant.IS_INIT_ROLE, false)
-
     private var isHlmm: String by SPreference(Constant.hlmm, "1")
     private var isMc: String by SPreference(Constant.mc, "1")
     private var isBwl: String by SPreference(Constant.bwl, "1")
@@ -49,12 +47,6 @@ class MainActivity : BaseActivity() {
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
 
-    private var isRefreshZuge: Boolean by SPreference(Constant.IS_REFRESH_ZUGE, true)
-    private var isRefreshMc: Boolean by SPreference(Constant.IS_REFRESH_MC, true)
-    private var isRefreshHlmm: Boolean by SPreference(Constant.IS_REFRESH_HLMM, true)
-    private var isRefreshBwl: Boolean by SPreference(Constant.IS_REFRESH_BWL, true)
-    private var isRefreshTaq: Boolean by SPreference(Constant.IS_REFRESH_TAQ, true)
-    private var isRefreshRaq: Boolean by SPreference(Constant.IS_REFRESH_RAQ, true)
     var emptyJson = Gson().toJson(ArrayList<RoleBean>())
     private var roleListJson: String by SPreference(Constant.ROLE_LIST, emptyJson)
 
