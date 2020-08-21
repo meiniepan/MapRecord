@@ -38,7 +38,7 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
                     holder.setTextColor(R.id.tvTime, mContext.resources.getColor(R.color.purple))
                 }
                 item?.isMark == "0" -> {
-                    ll.setBackgroundResource(R.mipmap.bac_sss)
+                    ll.setBackgroundResource(R.mipmap.bac_map_gray)
                     holder.setTextColor(R.id.tvName, mContext.resources.getColor(R.color.baseBac2))
                     holder.setTextColor(R.id.tvTime, mContext.resources.getColor(R.color.baseBac2))
 

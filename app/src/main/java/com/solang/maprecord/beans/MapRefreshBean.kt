@@ -8,6 +8,5 @@ package com.solang.maprecord.beans
 data class MapRefreshBean(
     var name:String,
     var time:Long,
-    var isRefresh:Boolean,
     var gap:Long
 )

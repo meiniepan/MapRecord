@@ -49,12 +49,12 @@ class MainActivity : BaseActivity() {
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
 
-    private var isRefreshZuge: Boolean by SPreference(Constant.IS_REFRESH_ZUGE, false)
-    private var isRefreshMc: Boolean by SPreference(Constant.IS_REFRESH_MC, false)
-    private var isRefreshHlmm: Boolean by SPreference(Constant.IS_REFRESH_HLMM, false)
-    private var isRefreshBwl: Boolean by SPreference(Constant.IS_REFRESH_BWL, false)
-    private var isRefreshTaq: Boolean by SPreference(Constant.IS_REFRESH_TAQ, false)
-    private var isRefreshRaq: Boolean by SPreference(Constant.IS_REFRESH_RAQ, false)
+    private var isRefreshZuge: Boolean by SPreference(Constant.IS_REFRESH_ZUGE, true)
+    private var isRefreshMc: Boolean by SPreference(Constant.IS_REFRESH_MC, true)
+    private var isRefreshHlmm: Boolean by SPreference(Constant.IS_REFRESH_HLMM, true)
+    private var isRefreshBwl: Boolean by SPreference(Constant.IS_REFRESH_BWL, true)
+    private var isRefreshTaq: Boolean by SPreference(Constant.IS_REFRESH_TAQ, true)
+    private var isRefreshRaq: Boolean by SPreference(Constant.IS_REFRESH_RAQ, true)
     var emptyJson = Gson().toJson(ArrayList<RoleBean>())
     private var roleListJson: String by SPreference(Constant.ROLE_LIST, emptyJson)
 
@@ -181,18 +181,18 @@ class MainActivity : BaseActivity() {
     private fun initMapData() {
         mData.clear()
         changeList.clear()
-            mData.add(MapBean(Constant.taq_name, isTaq))
-            changeList.add(0)
-            mData.add(MapBean(Constant.raq_name, isRaq))
-            changeList.add(1)
-            mData.add(MapBean(Constant.mc_name, isMc))
-            changeList.add(2)
-            mData.add(MapBean(Constant.bwl_name, isBwl))
-            changeList.add(3)
-            mData.add(MapBean(Constant.hlmm_name, isHlmm))
-            changeList.add(4)
-            mData.add(MapBean(Constant.zuge_name, isZuge))
-            changeList.add(5)
+        mData.add(MapBean(Constant.taq_name, isTaq))
+        changeList.add(0)
+        mData.add(MapBean(Constant.raq_name, isRaq))
+        changeList.add(1)
+        mData.add(MapBean(Constant.mc_name, isMc))
+        changeList.add(2)
+        mData.add(MapBean(Constant.bwl_name, isBwl))
+        changeList.add(3)
+        mData.add(MapBean(Constant.hlmm_name, isHlmm))
+        changeList.add(4)
+        mData.add(MapBean(Constant.zuge_name, isZuge))
+        changeList.add(5)
     }
 
     private fun refreshMapData() {
@@ -201,32 +201,32 @@ class MainActivity : BaseActivity() {
         if (isTaq != mData[0].isMark) {
             changeList.add(0)
             mData.removeAt(0)
-            mData.add(0,MapBean(Constant.taq_name, isTaq))
+            mData.add(0, MapBean(Constant.taq_name, isTaq))
         }
         if (isRaq != mData[1].isMark) {
             changeList.add(1)
             mData.removeAt(1)
-            mData.add(1,MapBean(Constant.raq_name, isRaq))
+            mData.add(1, MapBean(Constant.raq_name, isRaq))
         }
         if (isMc != mData[2].isMark) {
             changeList.add(2)
             mData.removeAt(2)
-            mData.add(2,MapBean(Constant.mc_name, isMc))
+            mData.add(2, MapBean(Constant.mc_name, isMc))
         }
         if (isBwl != mData[3].isMark) {
             changeList.add(3)
             mData.removeAt(3)
-            mData.add(3,MapBean(Constant.bwl_name, isBwl))
+            mData.add(3, MapBean(Constant.bwl_name, isBwl))
         }
         if (isHlmm != mData[4].isMark) {
             changeList.add(4)
             mData.removeAt(4)
-            mData.add(4,MapBean(Constant.hlmm_name, isHlmm))
+            mData.add(4, MapBean(Constant.hlmm_name, isHlmm))
         }
         if (isZuge != mData[5].isMark) {
             changeList.add(5)
             mData.removeAt(5)
-            mData.add(5,MapBean(Constant.zuge_name, isZuge))
+            mData.add(5, MapBean(Constant.zuge_name, isZuge))
         }
     }
 
@@ -248,13 +248,12 @@ class MainActivity : BaseActivity() {
 
     private fun initRefreshCD() {
         var map: ArrayList<MapRefreshBean> = ArrayList()
-        map.add(MapRefreshBean(Constant.bwl_name, timeRefreshBwl, isRefreshBwl, Constant.bwl_gap))
-        map.add(MapRefreshBean(Constant.mc_name, timeRefreshMc, isRefreshMc, Constant.mc_gap))
+        map.add(MapRefreshBean(Constant.bwl_name, timeRefreshBwl, Constant.bwl_gap))
+        map.add(MapRefreshBean(Constant.mc_name, timeRefreshMc, Constant.mc_gap))
         map.add(
             MapRefreshBean(
                 Constant.zuge_name,
                 timeRefreshZuge,
-                isRefreshZuge,
                 Constant.zuge_gap
             )
         )
@@ -262,12 +261,11 @@ class MainActivity : BaseActivity() {
             MapRefreshBean(
                 Constant.hlmm_name,
                 timeRefreshHlmm,
-                isRefreshHlmm,
                 Constant.hlmm_gap
             )
         )
-        map.add(MapRefreshBean(Constant.raq_name, timeRefreshRaq, isRefreshRaq, Constant.raq_gap))
-        map.add(MapRefreshBean(Constant.taq_name, timeRefreshTaq, isRefreshTaq, Constant.taq_gap))
+        map.add(MapRefreshBean(Constant.raq_name, timeRefreshRaq, Constant.raq_gap))
+        map.add(MapRefreshBean(Constant.taq_name, timeRefreshTaq, Constant.taq_gap))
         for (name in roleList) {
             doRefresh(name.id, map)
         }
@@ -279,12 +277,9 @@ class MainActivity : BaseActivity() {
     ) {
         SPreference.setContext(applicationContext, name)
         for (bean in map) {
-            if (!bean.isRefresh) {
-                if (System.currentTimeMillis() > bean.time) {
-                    markRefresh(bean)
-
-                    markMap(bean.name, "1")
-                }
+            if (System.currentTimeMillis() > bean.time) {
+                markRefresh(bean)
+                markMap(bean.name, "1")
             }
         }
     }
@@ -453,14 +448,16 @@ class MainActivity : BaseActivity() {
                 toast("请填写角色名")
                 return@setOnClickListener
             }
+            var uuid = UUID.randomUUID().toString().replace("-", "")
             roleList.add(
                 RoleBean(
-                    UUID.randomUUID().toString().replace("-", ""),
+                    uuid,
                     roleName.text.toString(),
                     roleProfession,
                     roleAccount.text.toString()
                 )
             )
+            initNewRoleRefreshTime(uuid)
             saveRoleInfoList()
             if (!haveRole) {
                 setCurrentRole()
@@ -472,6 +469,46 @@ class MainActivity : BaseActivity() {
             toast("添加成功")
             dialog.dismiss()
         }
+    }
+
+    private fun initNewRoleRefreshTime(uuid: String) {
+        var time1 = Constant.zuge_begin
+        while (time1 < System.currentTimeMillis()) {
+            time1 += Constant.zuge_gap
+        }
+
+        var time2 = Constant.mc_begin
+        while (time2 < System.currentTimeMillis()) {
+            time2 += Constant.mc_gap
+        }
+
+        var time3 = Constant.hlmm_begin
+        while (time3 < System.currentTimeMillis()) {
+            time3 += Constant.hlmm_gap
+        }
+
+        var time4 = Constant.bwl_begin
+        while (time4 < System.currentTimeMillis()) {
+            time4 += Constant.bwl_gap
+        }
+
+        var time5 = Constant.taq_begin
+        while (time5 < System.currentTimeMillis()) {
+            time5 += Constant.taq_gap
+        }
+
+        var time6 = Constant.raq_begin
+        while (time6 < System.currentTimeMillis()) {
+            time6 += Constant.raq_gap
+        }
+        SPreference.setContext(this, uuid)
+        timeRefreshZuge = time1
+        timeRefreshMc = time2
+        timeRefreshHlmm = time3
+        timeRefreshBwl = time4
+        timeRefreshTaq = time5
+        timeRefreshRaq = time6
+        SPreference.setContext(this, currentPerson)
     }
 
 
@@ -527,27 +564,21 @@ class MainActivity : BaseActivity() {
         when (bean.name) {
             Constant.hlmm_name -> {
                 timeRefreshHlmm = time2
-                isRefreshHlmm = false
             }
             Constant.mc_name -> {
                 timeRefreshMc = time2
-                isRefreshMc = false
             }
             Constant.bwl_name -> {
                 timeRefreshBwl = time2
-                isRefreshBwl = false
             }
             Constant.zuge_name -> {
                 timeRefreshZuge = time2
-                isRefreshZuge = false
             }
             Constant.raq_name -> {
                 timeRefreshRaq = time2
-                isRefreshRaq = false
             }
             Constant.taq_name -> {
                 timeRefreshTaq = time2
-                isRefreshTaq = false
             }
         }
     }
