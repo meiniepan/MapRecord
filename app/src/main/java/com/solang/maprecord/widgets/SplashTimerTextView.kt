@@ -30,6 +30,7 @@ import com.solang.maprecord.utils.sp2px
 
 @SuppressLint("AppCompatCustomView")
 class SplashTimerTextView : TextView {
+    private var hasDraw: Boolean = false
     /**
      * 获取倒计时的时长，进行界面更新或逻辑
      * @return
@@ -177,7 +178,10 @@ class SplashTimerTextView : TextView {
         val y: Float =
             mHeight / 2 + (Math.abs(fontMetrics.ascent) - fontMetrics.descent) / 2
         textStr?.let { canvas.drawText(it, x, y, mTextPaint) }
-        startAnim()
+        if (!hasDraw) {
+            startAnim()
+            hasDraw = true
+        }
     }
 
     /**
