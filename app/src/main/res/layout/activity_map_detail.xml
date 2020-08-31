@@ -4,40 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/baseBac"
     tools:context=".ui.MainActivity">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/bac_main"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@mipmap/bac_main" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="25dp"
+        android:orientation="vertical"
+        >
 
-        android:orientation="vertical">
-    <com.solang.maprecord.widgets.CustomTitleBar
-        android:layout_width="match_parent"
-        app:white_icon="true"
-        android:layout_height="@dimen/title_height" />
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        <com.solang.maprecord.widgets.CustomTitleBar
+            android:id="@+id/ctbTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/commonBlue"
+            />
 
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="25dp"
-        android:paddingTop="50dp"
-        android:paddingBottom="20dp"
-        android:paddingEnd="25dp"
-        android:textColor="@color/white"
-        android:textSize="22dp"
-        />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRoles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+        </androidx.core.widget.NestedScrollView>
 
 
-</LinearLayout>
+    </LinearLayout>
 </FrameLayout>

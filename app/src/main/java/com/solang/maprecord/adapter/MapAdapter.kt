@@ -46,28 +46,28 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
             holder.setText(R.id.tvName, item?.name)
             var timeBegin: Long = 0
             var timeGap: Long = 0
-            when {
-                Constant.hlmm_name == item?.name -> {
+            when (item?.name) {
+                Constant.hlmm_name -> {
                     timeBegin = Constant.hlmm_begin
                     timeGap = Constant.hlmm_gap
                 }
-                Constant.mc_name == item?.name -> {
+                Constant.mc_name -> {
                     timeBegin = Constant.mc_begin
                     timeGap = Constant.mc_gap
                 }
-                Constant.bwl_name == item?.name -> {
+                Constant.bwl_name -> {
                     timeBegin = Constant.bwl_begin
                     timeGap = Constant.bwl_gap
                 }
-                Constant.zuge_name == item?.name -> {
+                Constant.zuge_name -> {
                     timeBegin = Constant.zuge_begin
                     timeGap = Constant.zuge_gap
                 }
-                Constant.raq_name == item?.name -> {
+                Constant.raq_name -> {
                     timeBegin = Constant.raq_begin
                     timeGap = Constant.raq_gap
                 }
-                Constant.taq_name == item?.name -> {
+                Constant.taq_name -> {
                     timeBegin = Constant.taq_begin
                     timeGap = Constant.taq_gap
                 }

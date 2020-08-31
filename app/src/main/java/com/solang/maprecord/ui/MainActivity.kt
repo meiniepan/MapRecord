@@ -46,6 +46,15 @@ class MainActivity : BaseActivity() {
     private var isZuge: String by SPreference(Constant.zuge, "1")
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
+    private var cdList =  ArrayList<String>().apply {
+        add(isTaq)
+        add(isRaq)
+        add(isMc)
+        add(isBwl)
+        add(isHlmm)
+        add(isZuge)
+    }
+
 
     var emptyJson = Gson().toJson(ArrayList<RoleBean>())
     private var roleListJson: String by SPreference(Constant.ROLE_LIST, emptyJson)
@@ -77,13 +86,16 @@ class MainActivity : BaseActivity() {
             showAddDialog()
         }
 
-        mRvArticle?.layoutManager =
+        mRvMaps?.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         mAdapter = MapAdapter(R.layout.item_map, mData)
-        mRvArticle.adapter = mAdapter
+        mRvMaps.adapter = mAdapter
         mAdapter.setOnItemClickListener { adapter, _, p ->
-            mStartActivity<MapDetailActivity>(this) {
-                putExtra("flag", p)
+
+            if (haveRole) {
+                enterMap(p)
+            } else {
+                toast("有角色后才可以进入哦")
             }
 
         }
@@ -97,6 +109,44 @@ class MainActivity : BaseActivity() {
             true
         }
 
+    }
+
+    private fun enterMap(p: Int) {
+        mStartActivity<MapDetailActivity>(this) {
+            putExtra("flag", mData[p].name)
+            putExtra(Constant.CURRENT, currentPerson)
+            var roList = ArrayList<RoleBean>()
+            for (i in roleList) {
+                SPreference.setContext(applicationContext, i.id!!)
+                var hasPlayThis = "1"
+                when (mData[p].name) {
+                    Constant.taq_name -> {
+                        hasPlayThis = isTaq
+                    }
+                    Constant.raq_name -> {
+                        hasPlayThis = isRaq
+                    }
+                    Constant.mc_name -> {
+                        hasPlayThis = isMc
+                    }
+                    Constant.bwl_name -> {
+                        hasPlayThis = isBwl
+                    }
+                    Constant.hlmm_name -> {
+                        hasPlayThis = isHlmm
+                    }
+                    Constant.zuge_name -> {
+                        hasPlayThis = isZuge
+                    }
+                }
+                i.canPlay = hasPlayThis == "1"
+                roList.add(i)
+            }
+            roList.sortBy { it.canPlay }
+            roList.reverse()
+            putExtra(Constant.ROLE_LIST, roList)
+        }
+        SPreference.setContext(applicationContext, currentPerson)
     }
 
     private fun initRoleTitle() {
@@ -161,7 +211,7 @@ class MainActivity : BaseActivity() {
         initMapData()
     }
 
-    private fun setCurrentRole(id: String = roleList[0].id) {
+    private fun setCurrentRole(id: String = roleList[0].id!!) {
         currentPerson = id
     }
 
@@ -259,7 +309,7 @@ class MainActivity : BaseActivity() {
         map.add(MapRefreshBean(Constant.raq_name, timeRefreshRaq, Constant.raq_gap))
         map.add(MapRefreshBean(Constant.taq_name, timeRefreshTaq, Constant.taq_gap))
         for (name in roleList) {
-            doRefresh(name.id, map)
+            doRefresh(name.id!!, map)
         }
     }
 
@@ -373,7 +423,7 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            setCurrentRole(roleList[b].id)
+            setCurrentRole(roleList[b].id!!)
             SPreference.setContext(applicationContext, currentPerson)
             refreshMapData()
             myNotify()

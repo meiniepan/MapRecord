@@ -1,52 +1,29 @@
 package com.solang.maprecord.ui
 
-import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.solang.maprecord.R
+import com.solang.maprecord.adapter.RoleInMapAdapter
 import com.solang.maprecord.base.BaseActivity
+import com.solang.maprecord.beans.RoleBean
+import com.solang.maprecord.utils.Constant
+import com.solang.maprecord.utils.RecycleViewDivider
+import com.solang.maprecord.utils.SPreference
+import com.solang.maprecord.utils.dp2Px
 import kotlinx.android.synthetic.main.activity_map_detail.*
 
 class MapDetailActivity : BaseActivity() {
-    var text0 = "我在好几篇小说中都提到过一座废弃的古bai园，实际就是地坛。du许多年前旅游业还没有开zhi展，园子荒芜冷落得如同一片野地，很少被人记起。\n" +
-            "\n" +
-            "地坛离我家很近。或者说我家离地坛很近。总之，只好认为这是缘分。地坛在我出生前四百多年就座落在那儿了，而自从我的祖母年轻时带着我父亲来到北京，就一直住在离它不远的地方一五十多年间搬过几次家。\n" +
-            "\n" +
-            "可搬来搬去总是在它周围，而且是越搬离它越近了。我常觉得这中间有着宿命的味道：仿佛这古园就是为了等我，而历尽沧桑在那儿等待了四百多年。\n" +
-            "\n" +
-            "它等待我出生，然后又等待我活到最狂妄的年龄上忽地残废了双腿。四百多年里，它一面剥蚀了古殿檐头浮夸的琉璃，淡褪了门壁上炫耀的朱红，坍圮了一段段高墙又散落了玉砌雕栏，祭坛四周的老柏树愈见苍幽，到处的野草荒藤也都茂盛得自在坦荡。\n" +
-            "\n" +
-            "这时候想必我是该来了。十五年前的一个下午，我摇着轮椅进入园中，它为一个失魂落魄的人把一切都准备好了。那时，太阳循着亘古3不变的路途正越来越大，也越红。在满园弥漫的沉静光芒中，一个人更容易看到时间，并看见自己的身影。\n" +
-            "\n" +
-            "自从那个下午我无意中进了这园子，就再没长久地离开过它。我一下子就理解了它的意图。正如我在一篇小说中所说的：“在人口密聚的城市里，有这样一个宁静的去处，像是上帝的苦心安排。”"
-    var text1 = "两条腿残废后的最初几年，我找不到工作，找不到去路，忽然间几乎什么都找不到了，我就摇了轮椅总是到它那儿去，仅为着那儿是可以逃避一个世界的另一个世界。我在那篇小说中写道：“没处可去我便一天到晚耗在这园子里。\n" +
-            "\n" +
-            "跟上班下班一样，别人去上班我就摇了轮椅到这儿来。园子无人看管，上下班时间有些抄近路的人们从园中穿过，园子里活跃一阵，过后便沉寂下来。”\n" +
-            "\n" +
-            "“园墙在金晃晃的空气中斜切下一溜荫凉，我把轮椅开进去，把椅背放倒，坐着或　是躺着，看书或者想事，撅一杈树枝左右拍打，驱赶那些和我一样不明白为什么要来这世上的小昆虫。”\n" +
-            "\n" +
-            "“蜂儿如一朵小雾稳稳地停在半空；蚂蚁摇头晃脑捋着触须，猛然间想透了什么，转身疾行而去；瓢虫爬得不耐烦了，累了祈祷一回便支开翅膀，忽悠一下升空了；树干上留着一只蝉蜕，寂寞如一间空屋；露水在草叶上滚动、聚集，压弯了草叶轰然坠地摔开万道金光。”"
-    var text2 = "“满园子都是草木竞相生长弄出的响动，窸窸窣窣窸窸窣窣片刻不息。”这都是真实的记录，园子荒芜但并不衰败。\n" +
-            "\n" +
-            "除去几座殿堂我无法进去，除去那座祭坛我不能上去而只能从各个角度张望它，地坛的每一棵树下我都去过，差不多它的每一米草地上都有过我的车轮印。无论是什么季节，什么天气，什么时间，我都在这园子里呆过。\n" +
-            "\n" +
-            "有时候呆一会儿就回家，有时候就呆到满地上都亮起月光。记不清都是在它的哪些角落里了。我一连几小时专心致志地想关于死的事，也以同样的耐心和方式想过我为什么要出生。\n" +
-            "\n" +
-            "这样想了好几年，最后事情终于弄明白了：一个人，出生了，这就不再是一个可以辩论的问题，而只是上帝交给他的一个事实；上帝在交给我们这件事实的时候，已经顺便保证了它的结果，所以死是一件不必急于求成的事，死是一个必然会降临的节日。\n" +
-            "\n" +
-            "这样想过之后我安心多了，眼前的一切不再那么可怕。比如你起早熬夜准备考试的时候，忽然想起有一个长长的假期在前面等待你，你会不会觉得轻松一点？并且庆幸并且感激这样的安排？\n" +
-            "\n" +
-            "剩下的就是怎样活的问题了，这却不是在某一个瞬间就能完全想透的、不是一次性能够解决的事，怕是活多久就要想它多久了，就像是伴你终生的魔鬼或恋人。所以，十五年了，我还是总得到那古园里去，去它的老树下或荒草边或颓墙旁，去默坐，去呆想，去推开耳边的嘈杂理一理纷乱的思绪，去窥看自己的心魂。"
-    var text3 = "十五年中，这古园的形体被不能理解它的人肆意雕琢，幸好有些东西是任谁也不能改变它的。譬如祭坛石门中的落日，寂静的光辉平铺的一刻，地上的每一个坎坷都被映照得灿烂；譬如在园中最为落寞的时间，一群雨燕便出来高歌，把天地都叫喊得苍凉；\n" +
-            "\n" +
-            "譬如冬天雪地上孩子的脚印，总让人猜想他们是谁，曾在哪儿做过些什么，然后又都到哪儿去了；譬如那些苍黑的古柏，你忧郁的时候它们镇静地站在那儿，你欣喜的时候它们依然镇静地站在那儿，它们没日没夜地站在那儿从你没有出生一直站到这个世界上又没了你的时候；譬如暴雨骤临园中，激起一阵阵灼烈4而清纯的草木和泥土的气味，让人想起无数个夏天的事件；\n" +
-            "\n" +
-            "譬如秋风忽至，再有一场早霜，落叶或飘摇歌舞或坦然安卧，满园中播散着熨帖5而微苦的味道。味道是最说不清楚的。味道不能写只能闻，要你身临其境去闻才能明了。味道甚至是难于记忆的，只有你又闻到它你才能记起它的全部情感和意蕴。所以我常常要到那园子里去。"
-    var text4 = "我说道：“爸爸，你走吧。”他往车外看了看说：“我买几个橘子去。你就在此地，不要走动。”我看那边月台的栅栏外有几个卖东西的等着顾客。走到那边月台，须穿过铁道，须跳下去又爬上去。父亲是一个胖子，走过去自然要费事些。我本来要去的，他不肯，只好让他去。我看见他戴着黑布小帽，穿着黑布大马褂，深青布棉袍，蹒跚地走到铁道边，慢慢探身下去，尚不大难。可是他穿过铁道，要爬上那边月台，就不容易了。他用两手攀着上面，两脚再向上缩；他肥胖的身子向左微倾，显出努力的样子，这时我看见他的背影，我的泪很快地流下来了。我赶紧拭干了泪。怕他看见，也怕别人看见。我再向外看时，他已抱了朱红的桔子往回走了。过铁道时，他先将桔子散放在地上，自己慢慢爬下，再抱起桔子走。到这边时，我赶紧去搀他。他和我走到车上，将桔子一股脑儿放在我的皮大衣上。于是扑扑衣上的泥土，心里很轻松似的。过一会儿说：“我走了，到那边来信！”我望着他走出去。他走了几步，回过头看见我，说：“进去吧，里边没人。”等他的背影混入来来往往的'人里，再找不着了，我便进来坐下，我的眼泪又来了。\n" +
-            "　　近几年来，父亲和我都是东奔西走，家中光景是一日不如一日。他少年出外谋生，独立支持，做了许多大事。哪知老境却如此颓唐！他触目伤怀，自然情不能自已。情郁于中，自然要发之于外；家庭琐屑便往往触他之怒。他待我渐渐不同往日。但最近两年不见，他终于忘却我的不好，只是惦记着我，惦记着我的儿子。我北来后，他写了一信给我，信中说道：“我身体平安，惟膀子疼痛厉害，举箸提笔，诸多不便，大约大去之期不远矣。”我读到此处，在晶莹的泪光中，又看见那肥胖的、青布棉袍黑布马褂的背影。唉！我不知何时再能与他相见！"
-    var text5 = "项脊轩，旧南阁子也。室仅方丈，可容一人居。百年老屋，尘泥渗漉，雨泽下注；每移案，顾视，无可置者。又北向，不能得日，日过午已昏。余稍为修葺，使不上漏。前辟四窗，垣墙周庭，以当南日，日影反照，室始洞然。又杂植兰桂竹木于庭，旧时栏楯，亦遂增胜。借书满架，偃仰啸歌，冥然兀坐，万籁有声；而庭堦寂寂，小鸟时来啄食，人至不去。三五之夜，明月半墙，桂影斑驳，风移影动，珊珊可爱。\n" +
-            "然余居于此，多可喜，亦多可悲。先是庭中通南北为一。迨诸父异爨，内外多置小门，墙往往而是。东犬西吠，客逾庖而宴，鸡栖于厅。庭中始为篱，已为墙，凡再变矣。家有老妪，尝居于此。妪，先大母婢也，乳二世，先妣抚之甚厚。室西连于中闺，先妣尝一至。妪每谓余曰：”某所，而母立于兹。”妪又曰：”汝姊在吾怀，呱呱而泣；娘以指叩门扉曰：‘儿寒乎？欲食乎？’吾从板外相为应答。”语未毕，余泣，妪亦泣。余自束发，读书轩中，一日，大母过余曰：”吾儿，久不见若影，何竟日默默在此，大类女郎也？”比去，以手阖门，自语曰：”吾家读书久不效，儿之成，则可待乎！”顷之，持一象笏至，曰：”此吾祖太常公宣德间执此以朝，他日汝当用之！”瞻顾遗迹，如在昨日，令人长号不自禁。"
-    var text = ""
+    private lateinit var roleList: ArrayList<RoleBean>
+    private lateinit var roleAdapter: RoleInMapAdapter
 
-    var p: Int = 0
+    private var isHlmm: String by SPreference(Constant.hlmm, "1")
+    private var isMc: String by SPreference(Constant.mc, "1")
+    private var isBwl: String by SPreference(Constant.bwl, "1")
+    private var isZuge: String by SPreference(Constant.zuge, "1")
+    private var isTaq: String by SPreference(Constant.taq, "1")
+    private var isRaq: String by SPreference(Constant.raq, "1")
+
+    var mapName: String = ""
+    var currentPerson: String = ""
     override fun getLayoutId(): Int {
         return R.layout.activity_map_detail
     }
@@ -54,28 +31,64 @@ class MapDetailActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        p = intent.getIntExtra("flag", 0)
-        when (p) {
-            0 -> {
-                text = text0
-            }
-            1 -> {
-                text = text1
-            }
-            2 -> {
-                text = text2
-            }
-            3 -> {
-                text = text3
-            }
-            4 -> {
-                text = text4
-            }
-            5 -> {
-                text = text5
+        mapName = intent.getStringExtra("flag")
+        currentPerson = intent.getStringExtra(Constant.CURRENT)
+        roleList = intent.getParcelableArrayListExtra(Constant.ROLE_LIST)
+        ctbTitle.setTitle(mapName)
+        roleAdapter = RoleInMapAdapter(R.layout.item_role_in_map, roleList)
+        rvRoles.apply {
+            layoutManager = LinearLayoutManager(this@MapDetailActivity)
+            addItemDecoration(
+                RecycleViewDivider(
+                    dp2Px(this@MapDetailActivity, 1),
+                    resources.getColor(R.color.colorPrimary)
+                )
+            )
+            adapter = roleAdapter
+        }
+        roleAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if (view.id == R.id.cbItem) {
+                SPreference.setContext(applicationContext, roleList[position].id!!)
+                markMap(mapName, if (roleList[position].canPlay) "0" else "1")
+                SPreference.setContext(applicationContext, currentPerson)
             }
         }
-        tvContent.text = text
+    }
+
+    private fun markMap(name: String, isMark: String) {
+        currentPerson
+        when (name) {
+            Constant.taq_name -> {
+                if (isTaq != isMark) {
+                    isTaq = isMark
+                }
+            }
+            Constant.raq_name -> {
+                if (isRaq != isMark) {
+                    isRaq = isMark
+                }
+            }
+            Constant.mc_name -> {
+                if (isMc != isMark) {
+                    isMc = isMark
+                }
+            }
+            Constant.bwl_name -> {
+                if (isBwl != isMark) {
+                    isBwl = isMark
+                }
+            }
+            Constant.hlmm_name -> {
+                if (isHlmm != isMark) {
+                    isHlmm = isMark
+                }
+            }
+            Constant.zuge_name -> {
+                if (isZuge != isMark) {
+                    isZuge = isMark
+                }
+            }
+        }
     }
 
 }
