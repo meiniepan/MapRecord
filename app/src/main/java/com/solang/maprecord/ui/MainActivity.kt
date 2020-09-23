@@ -79,7 +79,11 @@ class MainActivity : BaseActivity() {
         return R.layout.activity_main
     }
 
+    override fun initStatusBar() {
+        initStatusColor(resources.getColor(R.color.orange2))
+    }
     override fun initView() {
+
         initRoleData()
         initRoleTitle()
         ivAdd.setOnClickListener {

@@ -28,7 +28,9 @@ class MapDetailActivity : BaseActivity() {
         return R.layout.activity_map_detail
     }
 
-
+    override fun initStatusBar() {
+        initStatusColor(resources.getColor(R.color.baseBac))
+    }
     override fun initView() {
         super.initView()
         mapName = intent.getStringExtra("flag")
@@ -38,12 +40,7 @@ class MapDetailActivity : BaseActivity() {
         roleAdapter = RoleInMapAdapter(R.layout.item_role_in_map, roleList)
         rvRoles.apply {
             layoutManager = LinearLayoutManager(this@MapDetailActivity)
-            addItemDecoration(
-                RecycleViewDivider(
-                    dp2Px(this@MapDetailActivity, 1),
-                    resources.getColor(R.color.colorPrimary)
-                )
-            )
+
             adapter = roleAdapter
         }
         roleAdapter.setOnItemChildClickListener { adapter, view, position ->
@@ -54,6 +51,7 @@ class MapDetailActivity : BaseActivity() {
             }
         }
     }
+
 
     private fun markMap(name: String, isMark: String) {
         currentPerson

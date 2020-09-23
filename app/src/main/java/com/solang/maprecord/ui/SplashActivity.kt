@@ -2,12 +2,14 @@ package com.solang.maprecord.ui
 
 import android.Manifest
 import android.content.Context
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.os.Handler
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.Observer
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.solang.maprecord.R
 import com.solang.maprecord.utils.mStartActivity
 
@@ -32,6 +34,7 @@ class SplashActivity : AppCompatActivity() {
             handler.removeCallbacks(runnable)
             initView()
         }
+        startAnimatabe()
     }
 
     /**
@@ -40,6 +43,13 @@ class SplashActivity : AppCompatActivity() {
     private fun initView() {
         startIntent()
     }
+    private fun startAnimatabe() {
+        val animatedVectorDrawable = AnimatedVectorDrawableCompat.create(this, R.drawable.ic_ice_anim)
+        iv.setImageDrawable(animatedVectorDrawable)
+        val animatable = iv.drawable as Animatable
+        animatable.start()
+    }
+
 
 
     private fun startIntent() {

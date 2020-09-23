@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@color/commonBlue"
-        android:scaleType="centerCrop"/>
+        android:background="@color/commonBlue"
+        android:src="@drawable/ic_ice_anim"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +29,7 @@
     android:layout_marginEnd="20dp"
     android:text="跳过"
     android:textColor="@color/white"
-    app:timer_duration="1000"
+    app:timer_duration="3000"
     app:timer_arcColor="@color/white"
     app:timer_arcStrokeWidth="2dp"/>
         <TextView

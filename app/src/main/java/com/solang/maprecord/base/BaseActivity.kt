@@ -1,5 +1,6 @@
 package com.solang.maprecord.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
@@ -30,6 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initStatusBar()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val modes = window.windowManager.defaultDisplay.supportedModes
             modes.sortBy {
@@ -47,7 +49,7 @@ abstract class BaseActivity : AppCompatActivity() {
         initView()
         initData()
         if (showCreateReveal()) {
-            setUpReveal(savedInstanceState)
+//            setUpReveal(savedInstanceState)
         }
     }
 
@@ -105,6 +107,21 @@ abstract class BaseActivity : AppCompatActivity() {
             )
         }
     }
-
+    open fun initStatusBar() {
+        initStatusColor(resources.getColor(R.color.commonBlue))
+    }
+    @SuppressLint("NewApi")
+    open fun initStatusColor(color: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.statusBarColor = color
+        }
+        if (ColorUtils.calculateLuminance(color) >= 0.5) {
+            // 设置状态栏中字体的颜色为黑色
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            // 跟随系统
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
+    }
 
 }

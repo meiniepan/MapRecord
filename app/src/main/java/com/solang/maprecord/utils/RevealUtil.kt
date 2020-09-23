@@ -58,7 +58,7 @@ object RevealUtil{
 
         rootLayout.revealInfo = CircularRevealWidget.RevealInfo(centerX, centerY, 0f)
         val circularReveal = CircularRevealCompat.createCircularReveal(rootLayout, centerX, centerY, finalRadius)
-        circularReveal.duration = 500
+        circularReveal.duration = 300
         circularReveal.interpolator = LinearInterpolator()
         circularReveal.start()
     }
@@ -75,7 +75,7 @@ object RevealUtil{
             (rootLayout.width * 0.5).toInt(),
             (rootLayout.height * 0.5).toInt(), finalRadius,0f
         )
-        circularReveal.duration = 500
+        circularReveal.duration = 300
         circularReveal.interpolator = LinearInterpolator()
 //        给背景增加0.8f的alpha值
 //        rootLayout.postDelayed({

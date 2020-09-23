@@ -47,5 +47,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.eftimoff:android-pathview:1.0.8@aar'
 
 }
