@@ -21,6 +21,7 @@ class MapDetailActivity : BaseActivity() {
     private var isZuge: String by SPreference(Constant.zuge, "1")
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
+    private var isNaxx: String by SPreference(Constant.naxx, "1")
 
     var mapName: String = ""
     var currentPerson: String = ""
@@ -74,6 +75,11 @@ class MapDetailActivity : BaseActivity() {
             Constant.bwl_name -> {
                 if (isBwl != isMark) {
                     isBwl = isMark
+                }
+            }
+            Constant.naxx_name -> {
+                if (isNaxx != isMark) {
+                    isNaxx = isMark
                 }
             }
             Constant.hlmm_name -> {

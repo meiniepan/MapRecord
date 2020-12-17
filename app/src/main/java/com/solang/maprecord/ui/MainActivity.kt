@@ -43,17 +43,10 @@ class MainActivity : BaseActivity() {
     private var isHlmm: String by SPreference(Constant.hlmm, "1")
     private var isMc: String by SPreference(Constant.mc, "1")
     private var isBwl: String by SPreference(Constant.bwl, "1")
+    private var isNaxx: String by SPreference(Constant.naxx, "1")
     private var isZuge: String by SPreference(Constant.zuge, "1")
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
-    private var cdList =  ArrayList<String>().apply {
-        add(isTaq)
-        add(isRaq)
-        add(isMc)
-        add(isBwl)
-        add(isHlmm)
-        add(isZuge)
-    }
 
 
     var emptyJson = Gson().toJson(ArrayList<RoleBean>())
@@ -69,6 +62,7 @@ class MainActivity : BaseActivity() {
         Constant.hlmm_begin
     )
     private var timeRefreshBwl: Long by SPreference(Constant.TIME_REFRESH_BWL, Constant.bwl_begin)
+    private var timeRefreshNaxx: Long by SPreference(Constant.TIME_REFRESH_NAXX, Constant.naxx_begin)
     private var timeRefreshTaq: Long by SPreference(Constant.TIME_REFRESH_TAQ, Constant.taq_begin)
     private var timeRefreshRaq: Long by SPreference(Constant.TIME_REFRESH_RAQ, Constant.raq_begin)
     lateinit var mAdapter: MapAdapter
@@ -82,6 +76,7 @@ class MainActivity : BaseActivity() {
     override fun initStatusBar() {
         initStatusColor(resources.getColor(R.color.orange2))
     }
+
     override fun initView() {
 
         initRoleData()
@@ -135,6 +130,9 @@ class MainActivity : BaseActivity() {
                     }
                     Constant.bwl_name -> {
                         hasPlayThis = isBwl
+                    }
+                    Constant.naxx_name -> {
+                        hasPlayThis = isNaxx
                     }
                     Constant.hlmm_name -> {
                         hasPlayThis = isHlmm
@@ -239,6 +237,8 @@ class MainActivity : BaseActivity() {
         changeList.add(4)
         mData.add(MapBean(Constant.zuge_name, isZuge))
         changeList.add(5)
+        mData.add(MapBean(Constant.naxx_name, isNaxx))
+        changeList.add(6)
     }
 
     private fun refreshMapData() {
@@ -274,6 +274,11 @@ class MainActivity : BaseActivity() {
             mData.removeAt(5)
             mData.add(5, MapBean(Constant.zuge_name, isZuge))
         }
+        if (isNaxx != mData[6].isMark) {
+            changeList.add(6)
+            mData.removeAt(6)
+            mData.add(6, MapBean(Constant.naxx_name, isNaxx))
+        }
     }
 
     override fun onResume() {
@@ -295,6 +300,7 @@ class MainActivity : BaseActivity() {
     private fun initRefreshCD() {
         var map: ArrayList<MapRefreshBean> = ArrayList()
         map.add(MapRefreshBean(Constant.bwl_name, timeRefreshBwl, Constant.bwl_gap))
+        map.add(MapRefreshBean(Constant.naxx_name, timeRefreshNaxx, Constant.naxx_gap))
         map.add(MapRefreshBean(Constant.mc_name, timeRefreshMc, Constant.mc_gap))
         map.add(
             MapRefreshBean(
@@ -547,6 +553,11 @@ class MainActivity : BaseActivity() {
         while (time6 < System.currentTimeMillis()) {
             time6 += Constant.raq_gap
         }
+
+        var time7 = Constant.naxx_begin
+        while (time7 < System.currentTimeMillis()) {
+            time7 += Constant.naxx_gap
+        }
         SPreference.setContext(this, uuid)
         timeRefreshZuge = time1
         timeRefreshMc = time2
@@ -554,6 +565,7 @@ class MainActivity : BaseActivity() {
         timeRefreshBwl = time4
         timeRefreshTaq = time5
         timeRefreshRaq = time6
+        timeRefreshNaxx = time7
         SPreference.setContext(this, currentPerson)
     }
 
@@ -598,6 +610,12 @@ class MainActivity : BaseActivity() {
                     changeList.add(5)
                 }
             }
+            Constant.naxx_name -> {
+                if (isNaxx != isMark) {
+                    isNaxx = isMark
+                    changeList.add(6)
+                }
+            }
         }
     }
 
@@ -617,6 +635,9 @@ class MainActivity : BaseActivity() {
             Constant.bwl_name -> {
                 timeRefreshBwl = time2
             }
+            Constant.naxx_name -> {
+                timeRefreshNaxx = time2
+            }
             Constant.zuge_name -> {
                 timeRefreshZuge = time2
             }
@@ -635,67 +656,6 @@ class MainActivity : BaseActivity() {
         val resultType = object : TypeToken<ArrayList<RoleBean>>() {}.type
         val gson = Gson()
         roleList = gson.fromJson<ArrayList<RoleBean>>(roleListJson, resultType)
-//        if (isInitRole) {
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "Triste",
-//                    getRoleList()[0],
-//                    "imqq_2002@163.com"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "Serafina",
-//                    getRoleList()[0],
-//                    "18500925718"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "婴寕",
-//                    getRoleList()[0],
-//                    "18810472753"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "婴宁小兔",
-//                    getRoleList()[1],
-//                    "18500925718"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "倾婴",
-//                    getRoleList()[3],
-//                    "18500925718"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "倾婴",
-//                    getRoleList()[2],
-//                    "18810472753"
-//                )
-//            )
-//            roleList.add(
-//                RoleBean(
-//                    UUID.randomUUID().toString().replace("-", ""),
-//                    "婴宁兔",
-//                    getRoleList()[5],
-//                    "18810472753"
-//                )
-//            )
-//            isInitRole = true
-//            setCurrentRole()
-//            saveRoleInfoList()
-//        }
     }
 
     fun saveRoleInfoList() {

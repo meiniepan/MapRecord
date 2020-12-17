@@ -59,6 +59,10 @@ class MapAdapter(layoutId: Int, listData: List<MapBean>?) :
                     timeBegin = Constant.bwl_begin
                     timeGap = Constant.bwl_gap
                 }
+                Constant.naxx_name -> {
+                    timeBegin = Constant.naxx_begin
+                    timeGap = Constant.naxx_gap
+                }
                 Constant.zuge_name -> {
                     timeBegin = Constant.zuge_begin
                     timeGap = Constant.zuge_gap
