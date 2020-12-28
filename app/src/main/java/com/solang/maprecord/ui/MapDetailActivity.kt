@@ -6,9 +6,7 @@ import com.solang.maprecord.adapter.RoleInMapAdapter
 import com.solang.maprecord.base.BaseActivity
 import com.solang.maprecord.beans.RoleBean
 import com.solang.maprecord.utils.Constant
-import com.solang.maprecord.utils.RecycleViewDivider
 import com.solang.maprecord.utils.SPreference
-import com.solang.maprecord.utils.dp2Px
 import kotlinx.android.synthetic.main.activity_map_detail.*
 
 class MapDetailActivity : BaseActivity() {
@@ -32,6 +30,7 @@ class MapDetailActivity : BaseActivity() {
     override fun initStatusBar() {
         initStatusColor(resources.getColor(R.color.baseBac))
     }
+
     override fun initView() {
         super.initView()
         mapName = intent.getStringExtra("flag")
