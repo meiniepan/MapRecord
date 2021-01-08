@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.activity_map_detail.*
 class MapDetailActivity : BaseActivity() {
     private lateinit var roleList: ArrayList<RoleBean>
     private lateinit var roleAdapter: RoleInMapAdapter
-
     private var isHlmm: String by SPreference(Constant.hlmm, "1")
     private var isMc: String by SPreference(Constant.mc, "1")
     private var isBwl: String by SPreference(Constant.bwl, "1")
@@ -20,16 +19,13 @@ class MapDetailActivity : BaseActivity() {
     private var isTaq: String by SPreference(Constant.taq, "1")
     private var isRaq: String by SPreference(Constant.raq, "1")
     private var isNaxx: String by SPreference(Constant.naxx, "1")
-
     var mapName: String = ""
     var currentPerson: String = ""
+
     override fun getLayoutId(): Int {
         return R.layout.activity_map_detail
     }
 
-    override fun initStatusBar() {
-        initStatusColor(resources.getColor(R.color.baseBac))
-    }
 
     override fun initView() {
         super.initView()

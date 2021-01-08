@@ -24,7 +24,5 @@ open class BaseApplication : Application() {
 
     }
     private fun initMode() {
-        var isNightMode: Boolean by SPreference(Constant.NIGHT_MODE, false)
-        AppCompatDelegate.setDefaultNightMode(if (isNightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

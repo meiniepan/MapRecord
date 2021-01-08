@@ -15,6 +15,7 @@ import com.solang.maprecord.R
 import com.solang.maprecord.utils.RevealUtil.circularFinishReveal
 import com.solang.maprecord.utils.RevealUtil.setReveal
 import com.solang.maprecord.utils.toast
+import com.zackratos.ultimatebarx.library.UltimateBarX
 import java.util.*
 
 
@@ -32,17 +33,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initStatusBar()
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val modes = window.windowManager.defaultDisplay.supportedModes
-            modes.sortBy {
-                it.refreshRate
-            }
-            window.let {
-                val layoutParam = it.attributes
-                layoutParam.preferredDisplayModeId = modes.last().modeId
-                it.attributes = layoutParam
-            }
-        }
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         mRootView = (findViewById(android.R.id.content) as ViewGroup).getChildAt(0)
@@ -108,20 +98,12 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
     open fun initStatusBar() {
-        initStatusColor(resources.getColor(R.color.commonBlue))
-    }
-    @SuppressLint("NewApi")
-    open fun initStatusColor(color: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.statusBarColor = color
-        }
-        if (ColorUtils.calculateLuminance(color) >= 0.5) {
-            // 设置状态栏中字体的颜色为黑色
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        } else {
-            // 跟随系统
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        }
+        UltimateBarX.with(this)
+            .fitWindow(false)
+            .color(Color.TRANSPARENT)
+//            .drawableRes(R.drawable.bac_blue_bac_19)
+            .light(false)
+            .applyStatusBar()
     }
 
 }

@@ -48,5 +48,6 @@ dependencies {
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'com.google.code.gson:gson:2.6.2'
     implementation 'com.eftimoff:android-pathview:1.0.8@aar'
-
+//状态栏适配
+    implementation 'com.zackratos.ultimatebarx:ultimatebarx:0.3.3'
 }
