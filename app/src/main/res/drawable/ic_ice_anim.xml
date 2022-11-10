@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:drawable="@drawable/ic_ice3"
+    tools:targetApi="lollipop">
+
+    <target
+        android:name="svg_1"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_2"
+        android:animation="@animator/anim_start" />
+
+    <target
+        android:name="svg_3"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_4"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_5"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_6"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_7"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_8"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_9"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_10"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_11"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_12"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_13"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_14"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_15"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_16"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_17"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_18"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_19"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_20"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_21"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_22"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_23"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_24"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_25"
+        android:animation="@animator/anim_start" />
+    <target
+        android:name="svg_26"
+        android:animation="@animator/anim_start" />
+</animated-vector>
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryA">#556200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="orange">#FF5722</color>
+    <color name="orange2">#A27C4C</color>
+    <color name="purple">#9C27B0</color>
+    <color name="baseBac">#997D7C75</color>
+    <color name="baseBac2">#7D7C75</color>
+    <color name="titleBlack">#212121</color>
+    <color name="common_hint">#D3D9E0</color>
+    <color name="common_gray">#918989</color>
+    <color name="commonBlue">#5E37FF</color>
+    <color name="commonYellow">#CC8A28</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+<!--职业颜色-->
+    <color name="colorXd">#FF7D0A</color>
+    <color name="colorLr">#ABD473</color>
+    <color name="colorFs">#69CCF0</color>
+    <color name="colorSq">#F58CBA</color>
+    <color name="colorMs">#FFFFFF</color>
+    <color name="colorDz">#FFF569</color>
+    <color name="colorSs">#9482C9</color>
+    <color name="colorZs">#C79C6E</color>
+    <color name="colorSmjs">#0070DE</color>
+</resources>

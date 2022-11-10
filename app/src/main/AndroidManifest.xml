@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.solang.maprecord">
+    <!--NFC 相关权限-->
+    <!--描述所需硬件特性-->
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+    <uses-permission android:name="android.permission.NFC" />
+    <application
+        android:name=".base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_aaa"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_aaa"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.SplashActivity"
+            android:theme="@style/App.Theme.Launch">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.MapDetailActivity" />
+        <activity android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".ui.NfcActivity" >
+            <intent-filter>
+
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
