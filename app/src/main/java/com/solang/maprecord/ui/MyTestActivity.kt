@@ -16,7 +16,6 @@ class MyTestActivity : BaseActivity() {
     var mDataFile = ArrayList<MapBean>()
     private var timer: CountDownTimer? = null
 
-
     override fun getLayoutId(): Int {
         return R.layout.activity_my_test
     }

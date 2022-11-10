@@ -58,7 +58,6 @@ class ImageMarqueeAdapter(layoutId: Int, listData: MutableList<MapBean>?) :
         timer?.start()
     }
 
-
     private fun initTimer() {
         Log.e("initTimer===", "initTimer")
         if (timer == null) {
